@@ -1,27 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="ZhiKaoTong logo">
-  <!-- 智考通 Logo：渐变圆角方 + 白色学士帽 + 对勾（education × attendance） -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="智考通 ZhiKaoTong logo">
+  <!-- 智考通 Logo：1:1 复刻应用内 brand-mark（mod-login/mod-core-nav 同款）
+       渐变圆角方 + 右下装饰圆弧 + sparkles 图标（白色线条，与 UI 一致） -->
   <defs>
-    <linearGradient id="zkt-g" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="zkt-g" x1="0" y1="0.06" x2="1" y2="0.94">
       <stop offset="0" stop-color="#2B8AF5"/>
       <stop offset="1" stop-color="#1558C7"/>
     </linearGradient>
-    <linearGradient id="zkt-gloss" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.26"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
+    <clipPath id="zkt-clip">
+      <rect x="20" y="20" width="200" height="200" rx="86"/>
+    </clipPath>
   </defs>
-  <rect x="10" y="10" width="220" height="220" rx="56" fill="url(#zkt-g)"/>
-  <rect x="10" y="10" width="220" height="104" rx="56" fill="url(#zkt-gloss)"/>
-  <!-- 学士帽（24×24 图标坐标系 ×6 缩放：帽面/帽身） -->
-  <g transform="translate(48,44) scale(6)" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 10v6M2 10l10-5 10 5-10 5-2-1"/>
-    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+  <rect x="20" y="20" width="200" height="200" rx="86" fill="url(#zkt-g)"/>
+  <!-- 装饰圆环（复刻 .brand-mark::after：右下溢出的细描边圆） -->
+  <g clip-path="url(#zkt-clip)">
+    <circle cx="189" cy="200" r="200" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="5.7"/>
   </g>
-  <!-- 帽穗 -->
-  <g stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" fill="#FFFFFF">
-    <line x1="181" y1="86" x2="181" y2="118"/>
-    <circle cx="181" cy="124" r="5.5"/>
+  <!-- sparkles 图标（icons.js #i-sparkles 同 path，白描边，居中） -->
+  <g transform="translate(55,55) scale(5.42)" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z"/>
+    <path d="m19 14 1.1 2.4L22.5 17.5 20 18.6 19 21l-1-2.4-2.5-1.1 2.5-1.1L19 14ZM5 2l.8 2.2L8 5l-2.2.8L5 8l-.8-2.2L2 5l2.2-.8L5 2Z"/>
   </g>
-  <!-- 底部对勾（考勤语义） -->
-  <path d="M95 180 l16 16 36 -36" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
