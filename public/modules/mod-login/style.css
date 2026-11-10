@@ -1,0 +1,52 @@
+/* 登录页：Tab 切换（学生学号输入 / 教职工账号下拉）
+   ⚠ 坑：#loginStage 插槽自身被注入 .mod-login 命名空间（同一元素），必须用复合选择器 .login-stage.mod-login；
+   后代写法 .mod-login .login-stage 永不命中（曾致登录页失去全屏覆盖与居中，见 DEV_LOG） */
+.login-stage.mod-login { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(ellipse 90% 55% at 50% -5%, var(--google-blue-soft), transparent 60%), var(--app-bg); overflow-y: auto; }
+.login-stage.mod-login.open { display: flex; }
+.mod-login .login-panel { width: min(460px, 100%); border-radius: 26px; background: var(--surface-card); border: 1px solid var(--outline); box-shadow: var(--shadow-float); padding: 32px 32px 26px; position: relative; }
+.mod-login .login-head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mod-login .login-brand { display: flex; align-items: center; gap: 13px; }
+.mod-login .login-title { font-size: 21px; font-weight: 780; letter-spacing: -.04em; }
+.mod-login .login-subtitle { color: var(--on-surface-3); font-size: 10px; letter-spacing: .12em; margin-top: 3px; }
+.mod-login .login-lead { color: var(--on-surface-2); font-size: 12px; margin: 18px 0 20px; line-height: 1.7; }
+.mod-login .login-brand .brand-mark { width: 42px; height: 42px; border-radius: 15px; color: white; display: grid; place-items: center; position: relative; overflow: hidden; background: linear-gradient(145deg, #2B8AF5, #1558C7); box-shadow: 0 8px 20px rgba(26, 115, 232, .25), inset 0 1px 1px rgba(255,255,255,.45); }
+.mod-login .login-brand .brand-mark .icon { width: 23px; height: 23px; stroke-width: 2; }
+
+/* Tab 切换（segmented 骨架来自 core/components.css，此处仅登录页局部微调） */
+.mod-login .login-tabs { width: 100%; margin-bottom: 20px; }
+.mod-login .login-tabs button { flex: 1; min-height: 36px; justify-content: center; }
+
+/* 登录面板（学生输入 / 教职工下拉共用）
+   ⚠ 坑：显式 display:flex 会覆盖 [hidden] 的 UA 默认 display:none（优先级更高），
+   必须补 [hidden] 规则，否则 Tab 切换时两套表单同时堆叠显示（2026-10-21 用户实测发现） */
+.mod-login .login-pane { display: flex; flex-direction: column; }
+.mod-login .login-pane[hidden] { display: none; }
+.mod-login .zone-label { display: block; color: var(--on-surface-3); font-size: 10px; font-weight: 700; margin: 0 0 7px; letter-spacing: .06em; }
+.mod-login .id-input { width: 100%; height: 42px; border-radius: 13px; border: 1px solid var(--outline-strong); background: var(--surface-card); color: var(--on-surface); padding: 0 13px; font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: .12em; transition: border-color .2s var(--ease), box-shadow .2s var(--ease); }
+.mod-login .id-input::placeholder { color: var(--on-surface-3); font-weight: 500; letter-spacing: normal; }
+.mod-login .id-input:focus-visible { outline: none; border-color: var(--google-blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--google-blue) 16%, transparent); }
+.mod-login .select-wrap { position: relative; }
+.mod-login .select-wrap::after { content: ""; position: absolute; right: 15px; top: 50%; width: 7px; height: 7px; border-right: 2px solid var(--on-surface-3); border-bottom: 2px solid var(--on-surface-3); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+.mod-login .role-select { position: relative; width: 100%; height: 42px; border-radius: 13px; border: 1px solid var(--outline-strong); background: var(--surface-card); color: var(--on-surface); padding: 0 36px 0 13px; font-size: 13px; font-weight: 600; appearance: none; cursor: pointer; transition: border-color .2s var(--ease), box-shadow .2s var(--ease); }
+.mod-login .role-select:hover { border-color: var(--google-blue); }
+.mod-login .role-select:focus-visible { outline: none; border-color: var(--google-blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--google-blue) 16%, transparent); }
+.mod-login .zone-login-btn { width: 100%; margin-top: 16px; position: relative; }
+
+/* 学号错误提示 */
+.mod-login .login-error { margin: 12px 0 0; color: var(--danger); font-size: 11px; font-weight: 650; }
+.mod-login .login-error[hidden] { display: none; }
+
+/* 密码字段（2026-10-29 密码体系）：账号字段与密码字段分节间距（§7.2 节奏档位） */
+.mod-login .pwd-label { margin-top: 14px; }
+.mod-login .pwd-input { letter-spacing: .18em; }
+
+/* 验证码行（2026-11-03 登录限流+验证码）：输入框与图片横排，图片 116×42 与输入框同高对齐 */
+.mod-login .captcha-label { margin-top: 14px; }
+.mod-login .captcha-row { display: flex; align-items: center; gap: 10px; }
+.mod-login .captcha-input { flex: 1; min-width: 0; text-transform: uppercase; letter-spacing: .22em; }
+.mod-login .captcha-img { flex: none; width: 116px; height: 42px; border-radius: 10px; border: 1px solid var(--outline-strong); background: var(--surface-low); overflow: hidden; cursor: pointer; display: grid; place-items: center; font-size: 10px; font-weight: 650; color: var(--on-surface-3); text-align: center; transition: border-color .2s var(--ease); }
+.mod-login .captcha-img:hover { border-color: var(--google-blue); }
+.mod-login .captcha-img:focus-visible { outline: none; border-color: var(--google-blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--google-blue) 16%, transparent); }
+.mod-login .captcha-img svg { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 720px) { .mod-login .login-panel { padding: 24px 20px 20px; } }

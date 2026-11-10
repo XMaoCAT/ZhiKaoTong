@@ -1,0 +1,12 @@
+/* mod-class-records：课堂记录私有样式（.acr-*；布局骨架复用宿主全局 aca-requests/aca-req-*/aca-review-*） */
+.mod-class-records .acr-filter { height: 32px; border-radius: 10px; border: 1px solid var(--outline-strong); background: var(--surface-card); color: var(--on-surface); padding: 0 10px; font-size: 12px; font-family: inherit; }
+.mod-class-records .acr-list { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
+.mod-class-records .acr-row { display: flex; align-items: center; gap: 8px; border: 1px solid var(--outline); border-radius: 11px; background: var(--surface-card); padding: 8px 11px; font-size: 12px; }
+.mod-class-records .acr-row strong { font-weight: 740; flex: 0 0 auto; }
+.mod-class-records .acr-row code { font-size: 10.5px; color: var(--google-blue); font-variant-numeric: tabular-nums; }
+.mod-class-records .acr-row .cr-status-pill { flex: 0 0 auto; }
+.mod-class-records .acr-score { margin-left: auto; font-size: 11px; color: var(--on-surface-2); font-variant-numeric: tabular-nums; }
+.mod-class-records .acr-row.modify .acr-select { margin-left: auto; height: 30px; border-radius: 9px; border: 1px solid var(--outline-strong); background: var(--surface-card); color: var(--on-surface); font-size: 11.5px; padding: 0 6px; font-family: inherit; }
+.mod-class-records .acr-row.modify .acr-select:first-of-type { margin-left: 8px; }
+.mod-class-records .acr-absence-toggle { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--danger); font-weight: 700; flex: 0 0 auto; }
+.mod-class-records .acr-absence-toggle input { accent-color: var(--danger); width: 14px; height: 14px; }

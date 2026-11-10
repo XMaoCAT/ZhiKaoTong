@@ -1,0 +1,13 @@
+# ---- 运行时产物（启动时自动重建，见 src/core/db.js / scheduler.js / uploadService.js）----
+# ⚠ data/app.db 为 WAL 模式数据库：服务运行中严禁文件级复制（-wal 重放陷阱，见 Rules.md §4）
+data/
+storage/
+
+# ---- 依赖（npm install 按 package-lock.json 恢复）----
+node_modules/
+
+# ---- 临时脚本与验证产物（不入正式交付，Rules.md 口径）----
+.temp/
+
+# ---- 日志 ----
+*.log

@@ -1,0 +1,58 @@
+/* 设计令牌：明暗主题变量（自 zhikaotong_seed_ui.html 拆分，原样保留） */
+:root {
+  color-scheme: light;
+  --app-bg: #F8FAFC;
+  --surface-card: #FFFFFF;
+  --surface-low: #F1F5F9;
+  --surface-mid: #E9EFF7;
+  --surface-high: #E3EAF4;
+  --on-surface: #0F172A;
+  --on-surface-2: #475569;
+  --on-surface-3: #64748B;
+  --outline: rgba(100, 116, 139, .18);
+  --outline-strong: rgba(100, 116, 139, .28);
+  --google-blue: #1A73E8;
+  --google-blue-soft: #E8F0FE;
+  --mint: #81C995;
+  --mint-ink: #17653B;
+  --mint-soft: #E7F6EC;
+  --amber: #FA903E;
+  --amber-ink: #8A460B;
+  --amber-soft: #FFF1E4;
+  --danger: #D93025;
+  --danger-soft: #FDE8E7;
+  --purple: #8B7CF6;
+  --shadow: 0 12px 35px rgba(15, 23, 42, .055);
+  --shadow-float: 0 18px 55px rgba(15, 23, 42, .11);
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-pill: 9999px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --app-bg: #0B0F17;
+  --surface-card: #161B26;
+  --surface-low: #1E2536;
+  --surface-mid: #242D40;
+  --surface-high: #2A354A;
+  --on-surface: #F8FAFC;
+  --on-surface-2: #CBD5E1;
+  --on-surface-3: #94A3B8;
+  --outline: rgba(148, 163, 184, .15);
+  --outline-strong: rgba(148, 163, 184, .26);
+  --google-blue: #76ACFF;
+  --google-blue-soft: #1B3153;
+  --mint: #81C995;
+  --mint-ink: #A8E6B9;
+  --mint-soft: #1A3428;
+  --amber: #FFAC69;
+  --amber-ink: #FFD0A8;
+  --amber-soft: #3B2A1F;
+  --danger: #FF8982;
+  --danger-soft: #3A2225;
+  --purple: #B3A9FF;
+  --shadow: 0 12px 35px rgba(0, 0, 0, .16);
+  --shadow-float: 0 18px 55px rgba(0, 0, 0, .32);
+}

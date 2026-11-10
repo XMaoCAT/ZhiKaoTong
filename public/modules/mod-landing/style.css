@@ -1,0 +1,21 @@
+/* 工作台首页：三大预留流程入口卡片 */
+.mod-landing .role-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 4px 0 18px; }
+.mod-landing .role-card { position: relative; overflow: hidden; isolation: isolate; min-width: 0; border-radius: 19px; padding: 20px 18px 16px; background: var(--surface-card); border: 1px solid var(--outline); box-shadow: var(--shadow); cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease); }
+.mod-landing .role-card::before { content: ""; pointer-events: none; position: absolute; z-index: -1; inset: 0; opacity: .6; background: radial-gradient(circle at var(--mx, 70%) var(--my, 0%), color-mix(in srgb, var(--glow, var(--google-blue)) 11%, transparent), transparent 54%), repeating-linear-gradient(116deg, transparent 0 11px, rgba(125,145,180,.025) 11px 12px); }
+.mod-landing .role-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-float); border-color: color-mix(in srgb, var(--glow, var(--google-blue)) 35%, var(--outline)); }
+.mod-landing .role-card:focus-visible { outline: 3px solid color-mix(in srgb, var(--glow, var(--google-blue)) 45%, transparent); outline-offset: 3px; }
+.mod-landing .role-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.mod-landing .role-icon { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; }
+/* 待办数量徽标（C4 2026-10-29：红底白字气泡，§7.3 气泡徽标档位；无待办时隐藏） */
+.mod-landing .role-badge { font-style: normal; flex: 0 0 auto; background: var(--danger); color: #fff; border-radius: var(--radius-pill); min-width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px; font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; box-shadow: 0 3px 8px rgba(217, 48, 37, .32); }
+.mod-landing .role-badge[hidden] { display: none; }
+.mod-landing .reserved-pill { display: inline-flex; align-items: center; gap: 5px; border-radius: var(--radius-pill); padding: 5px 9px; background: var(--amber-soft); color: var(--amber-ink); font-size: 10px; font-weight: 750; white-space: nowrap; }
+.mod-landing .reserved-pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .7; }
+.mod-landing .role-title { font-size: 17px; font-weight: 780; letter-spacing: -.04em; margin-top: 15px; }
+.mod-landing .role-caption { color: var(--on-surface-3); font-size: 10px; letter-spacing: .1em; margin-top: 4px; }
+.mod-landing .role-desc { color: var(--on-surface-2); font-size: 11px; line-height: 1.75; margin: 12px 0 0; }
+.mod-landing .role-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; color: var(--google-blue); }
+.mod-landing .role-hint { font-size: 10px; font-weight: 700; }
+.mod-landing .seal-note { border: 1px dashed var(--outline-strong); border-radius: 14px; padding: 14px 16px; color: var(--on-surface-3); font-size: 11px; line-height: 1.8; margin-bottom: 14px; }
+.mod-landing .seal-note strong { color: var(--on-surface-2); }
+@media (max-width: 1080px) { .role-grid { grid-template-columns: 1fr; } }

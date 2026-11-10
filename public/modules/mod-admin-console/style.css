@@ -1,0 +1,46 @@
+/* mod-admin-console 私有样式（零空话原则：仅调试端点开关 + 直达入口 + 数据管理）
+   开关本体 .switch 为宿主全局组件（core/css/components.css），此处不重复定义 */
+.mod-admin-console .dev-entry-row { display: flex; gap: 10px; padding: 0 20px 18px; flex-wrap: wrap; }
+.mod-admin-console .dev-entry-row[hidden] { display: none; }
+.mod-admin-console .dev-entry { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border-radius: var(--radius-pill); border: 1px solid var(--outline); background: var(--surface-low); color: var(--on-surface-2); font-size: 12px; font-weight: 650; transition: background .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease); }
+.mod-admin-console .dev-entry code { font-size: 12px; font-weight: 750; color: var(--google-blue); }
+.mod-admin-console .dev-entry span { color: var(--on-surface-3); font-size: 10px; }
+.mod-admin-console .dev-entry:hover { background: var(--google-blue-soft); border-color: color-mix(in srgb, var(--google-blue) 40%, transparent); transform: translateY(-1px); }
+
+/* 数据管理（2026-10-24：初始化/生成模拟数据） */
+.mod-admin-console .adm-status { padding: 0 20px 12px; font-size: 12px; color: var(--on-surface-3); }
+.mod-admin-console .adm-status span { color: var(--on-surface-2); font-variant-numeric: tabular-nums; }
+.mod-admin-console .adm-actions { display: flex; gap: 10px; padding: 0 20px 14px; }
+
+/* 用户与角色管理（2026-10-29：账号清单 + 重置密码；Tab 滑块复用宿主 .segmented 全局骨架） */
+.mod-admin-console .adm-acc-tabs { width: 100%; }
+.mod-admin-console .adm-acc-tabs button { flex: 1; min-height: 38px; justify-content: center; font-size: 13px; font-weight: 700; }
+.mod-admin-console .adm-acc-tools { display: flex; align-items: center; gap: 10px; padding: 0 20px 12px; }
+.mod-admin-console .adm-acc-search { max-width: 220px; }
+.mod-admin-console .adm-acc-count { font-size: 11px; color: var(--on-surface-3); font-variant-numeric: tabular-nums; margin-left: auto; }
+.mod-admin-console .adm-acc-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; padding: 0 20px 16px; }
+.mod-admin-console .adm-acc-row { display: flex; align-items: center; gap: 10px; border: 1px solid var(--outline); border-radius: 12px; padding: 9px 12px; background: var(--surface-card); }
+.mod-admin-console .adm-acc-copy { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.mod-admin-console .adm-acc-copy strong { font-size: 12.5px; font-weight: 740; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mod-admin-console .adm-acc-copy small { font-size: 10px; color: var(--on-surface-3); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mod-admin-console .adm-acc-row .leave-pill { flex: 0 0 auto; }
+.mod-admin-console .adm-acc-row .btn { flex: 0 0 auto; }
+.mod-admin-console .adm-acc-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 34px 0; color: var(--on-surface-3); font-size: 12px; border: 1px dashed var(--outline); border-radius: 14px; }
+@media (max-width: 720px) { .mod-admin-console .adm-acc-copy small { display: none; } }
+
+/* 考勤规则（2026-10-29 A3：旷课/旷寝扣分与预警线，保存即时生效） */
+.mod-admin-console .adm-rules-row { display: flex; align-items: flex-end; gap: 12px; padding: 0 20px 14px; flex-wrap: wrap; }
+.mod-admin-console .adm-rule-field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 750; color: var(--on-surface); }
+.mod-admin-console .adm-rule-field .aca-input { width: 120px; }
+.mod-admin-console .adm-rule-save { min-height: 40px; }
+
+/* 数据归档与导出（2026-10-29 A4：三数据集查询 + CSV 下载） */
+.mod-admin-console .adm-arch-tabs { width: 100%; }
+.mod-admin-console .adm-arch-tabs button { flex: 1; min-height: 38px; justify-content: center; font-size: 13px; font-weight: 700; }
+.mod-admin-console .adm-arch-tools { display: flex; align-items: flex-end; gap: 12px; padding: 0 20px 12px; flex-wrap: wrap; }
+.mod-admin-console .adm-arch-field { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 750; color: var(--on-surface); }
+.mod-admin-console .adm-arch-field .aca-input { width: 150px; }
+.mod-admin-console .adm-arch-go { min-height: 40px; }
+.mod-admin-console .adm-arch-count { padding: 0 20px 10px; font-size: 11px; color: var(--on-surface-3); font-variant-numeric: tabular-nums; }
+.mod-admin-console .adm-arch-row { border: 1px solid var(--outline); border-radius: 10px; padding: 8px 12px; font-size: 11.5px; color: var(--on-surface-2); background: var(--surface-card); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mod-admin-console .adm-arch-more { padding: 8px 2px; font-size: 10.5px; color: var(--on-surface-3); text-align: center; }

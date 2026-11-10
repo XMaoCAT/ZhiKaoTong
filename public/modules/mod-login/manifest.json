@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-login",
+  "name": "登录页",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#loginStage",
+  "platforms": ["pc", "mobile"],
+  "allowedUserGroups": ["学生", "教师", "教务处", "学生处", "导员", "IT管理员", "guest"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "两分区（学生/教职工）四角色免密直登，支持 /devN、/m-devN 调试端点独立登录态"
+}

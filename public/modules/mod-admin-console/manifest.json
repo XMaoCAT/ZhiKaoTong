@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-admin-console",
+  "name": "系统管理",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "考勤规则/用户与角色/数据与归档管理入口 + 调试端点开关（/devN、/m-devN）"
+}

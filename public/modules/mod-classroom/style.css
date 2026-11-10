@@ -1,0 +1,50 @@
+/* mod-classroom：课堂管理私有样式（.cr-*；§12 设计稿：口令大字 40px / 随人头像网格 80ms 呼吸 / 四态胶囊） */
+.mod-classroom .cr-start { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 14px; }
+.mod-classroom .cr-panel { display: flex; flex-direction: column; gap: 14px; padding: 0 20px 16px; }
+
+/* 签到区 */
+.mod-classroom .cr-sign-zone { border: 1px solid var(--outline); border-radius: 15px; background: var(--surface-low); padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.mod-classroom .cr-sign-head { display: flex; align-items: center; gap: 9px; width: 100%; flex-wrap: wrap; }
+.mod-classroom .cr-sign-head strong { font-size: 14px; font-weight: 770; }
+.mod-classroom .cr-sign-head span { font-size: 11px; color: var(--on-surface-3); }
+.mod-classroom .cr-sign-head .leave-pill { margin-left: auto; }
+.mod-classroom .cr-code-big { font-size: 40px; font-weight: 800; letter-spacing: .35em; color: var(--google-blue); font-variant-numeric: tabular-nums; text-indent: .35em; }
+.mod-classroom .cr-code-hint { font-size: 10.5px; color: var(--on-surface-3); }
+.mod-classroom .cr-sign-counts { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--on-surface-2); font-variant-numeric: tabular-nums; }
+.mod-classroom .cr-sign-counts b { font-weight: 800; color: var(--on-surface); }
+.mod-classroom .cr-sign-foot { display: flex; justify-content: flex-end; width: 100%; }
+
+/* 随人区（头像网格 + 呼吸高亮 80ms） */
+.mod-classroom .cr-pick-zone { border: 1px solid var(--outline); border-radius: 15px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.mod-classroom .cr-pick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; }
+.mod-classroom .cr-pick-avatar { display: flex; flex-direction: column; align-items: center; gap: 3px; border: 1px solid var(--outline); border-radius: 12px; background: var(--surface-card); padding: 9px 4px; transition: all .08s linear; }
+.mod-classroom .cr-pick-avatar strong { font-size: 13px; font-weight: 770; color: var(--on-surface-2); }
+.mod-classroom .cr-pick-avatar span { font-size: 9px; color: var(--on-surface-3); }
+.mod-classroom .cr-pick-avatar.pulse { border-color: var(--google-blue); background: var(--google-blue-soft); box-shadow: 0 0 0 3px color-mix(in srgb, var(--google-blue) 18%, transparent); }
+.mod-classroom .cr-pick-avatar.picked { border-color: var(--google-blue); background: var(--google-blue-soft); box-shadow: 0 0 0 3px color-mix(in srgb, var(--google-blue) 30%, transparent); }
+.mod-classroom .cr-pick-ops { display: flex; justify-content: center; }
+
+/* 学生列表区（行内操作） */
+.mod-classroom .cr-students-zone { border: 1px solid var(--outline); border-radius: 15px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.mod-classroom .cr-stu-list { display: flex; flex-direction: column; gap: 6px; max-height: 340px; overflow-y: auto; }
+.mod-classroom .cr-stu-row { display: flex; align-items: center; gap: 9px; border: 1px solid var(--outline); border-radius: 12px; background: var(--surface-card); padding: 9px 12px; font-size: 12px; }
+.mod-classroom .cr-stu-row strong { font-weight: 740; }
+.mod-classroom .cr-stu-row code { font-size: 11px; color: var(--google-blue); font-variant-numeric: tabular-nums; }
+.mod-classroom .cr-stu-row.ops .cr-ops { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.mod-classroom .cr-stu-row em { font-style: normal; }
+.mod-classroom .cr-status-pill { font-size: 10px; font-weight: 750; border-radius: var(--radius-pill); padding: 2px 9px; background: var(--surface-low); color: var(--on-surface-3); }
+.mod-classroom .cr-status-pill.ok { background: #E3F6EE; color: var(--mint-ink); }
+.mod-classroom .cr-status-pill.bad { background: var(--danger-soft); color: var(--danger); }
+.mod-classroom .cr-status-pill.mut { background: var(--surface-low); color: var(--on-surface-3); }
+
+/* 签到详情区（三分栏） */
+.mod-classroom .cr-detail-zone { border: 1px solid var(--outline); border-radius: 15px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.mod-classroom .cr-detail-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 760px) { .mod-classroom .cr-detail-cols { grid-template-columns: 1fr; } }
+.mod-classroom .cr-detail-col { display: flex; flex-direction: column; gap: 6px; background: var(--surface-low); border-radius: 12px; padding: 10px; }
+.mod-classroom .cr-col-title { font-size: 11px; font-weight: 760; }
+.mod-classroom .cr-col-title.ok { color: var(--mint-ink); }
+.mod-classroom .cr-col-title.bad { color: var(--danger); }
+.mod-classroom .cr-col-title.mut { color: var(--on-surface-3); }
+.mod-classroom .cr-detail-col .cr-stu-row { padding: 7px 10px; }
+.mod-classroom .cr-detail-col .cr-stu-row em { margin-left: auto; font-size: 9.5px; color: var(--on-surface-3); }

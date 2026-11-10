@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-survey",
+  "name": "问卷与投票",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["学生", "教师", "导员", "学生处", "教务处", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "问卷与投票中心：学生/教师填写与投票（匿名/实名、必填校验、票数规则、改票）；导员看绑定班填写情况+催填+发起；学生处/教务处/IT 发起（受众定向/查看范围配置）+统计+CSV 导出"
+}

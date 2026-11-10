@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-counselor-verify",
+  "name": "核实工作台",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["导员", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "请假核实与核销：导员操作视图 / IT管理员只读记录视图"
+}

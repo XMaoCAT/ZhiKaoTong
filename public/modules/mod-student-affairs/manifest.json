@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-student-affairs",
+  "name": "学生处",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["学生处", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "学生处：学生班级直改管理（建班带专业部归属）、班级变更申请审批、审批历史（违规积分 Tab 属 P8）"
+}

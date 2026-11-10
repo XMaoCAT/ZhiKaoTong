@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-lesson-review",
+  "name": "调课审批",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["教务处", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "教务处·调课审批（D9 拆分）：教师加课/教师请假停课/旷课撤销三类申请 + 审批历史"
+}

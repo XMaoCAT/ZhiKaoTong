@@ -1,0 +1,12 @@
+{
+  "moduleId": "academic",
+  "name": "教务管理",
+  "version": "1.0.0",
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["教务处", "IT管理员"],
+  "enabled": true,
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "学生班级管理（分类夹/新建班级/添加学生）与教师授课班级分配"
+}

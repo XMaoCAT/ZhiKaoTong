@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-class-records",
+  "name": "课堂记录",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["教务处", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "教务处·课堂记录（D9 拆分）：全量课堂审查 + 修改申请（改分值/签到状态/撤销旷课——发教师确认，record-modify 双向流）"
+}

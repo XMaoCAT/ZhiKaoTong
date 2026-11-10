@@ -1,0 +1,18 @@
+{
+  "modules": [
+    "mod-core-nav",
+    "mod-landing",
+    "mod-student-leave",
+    "mod-counselor-verify",
+    "mod-academic",
+    "mod-student-affairs",
+    "mod-courses",
+    "mod-classroom",
+    "mod-lesson-review",
+    "mod-class-records",
+    "mod-admin-console",
+    "mod-survey",
+    "mod-mobile-home",
+    "mod-login"
+  ]
+}

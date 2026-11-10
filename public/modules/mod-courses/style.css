@@ -1,0 +1,19 @@
+/* mod-courses：课程私有样式
+   课表网格 .tt-* / 弹窗内件（aca-input/reason-input/aca-pane/chip-row/pick-chip）均为宿主全局样式。 */
+.mod-courses .cs-timetable { padding: 0 20px 16px; }
+.mod-courses .cs-time-row { display: flex; align-items: center; gap: 10px; }
+.mod-courses .cs-time-row .aca-input { flex: 1; }
+.mod-courses .cs-time-row span { font-size: 12px; color: var(--on-surface-3); flex: 0 0 auto; }
+.mod-courses .tl-sign-canvas { width: 100%; height: 130px; border: 1px dashed var(--outline-strong); border-radius: 13px; background: var(--surface-card); touch-action: none; cursor: crosshair; }
+/* 签到卡（P9） */
+.mod-courses .cs-sign-card { margin-bottom: 14px; }
+.mod-courses .cs-sign-body { display: flex; flex-direction: column; gap: 10px; padding: 0 20px 16px; max-width: 340px; }
+.mod-courses .cs-sign-meta { font-size: 11.5px; color: var(--on-surface-3); }
+.mod-courses .cs-code-input { letter-spacing: .3em; text-indent: .3em; text-align: center; font-variant-numeric: tabular-nums; }
+.mod-courses .cs-sign-hint { font-size: 12px; color: var(--on-surface-2); padding: 6px 0 2px; }
+
+/* C3（2026-10-29）：学生周/日视图切换的日导航条 */
+.mod-courses .cs-day-nav { display: flex; align-items: center; gap: 10px; padding: 0 20px 12px; }
+.mod-courses .cs-day-nav[hidden] { display: none; }
+.mod-courses .cs-day-label { font-size: 13px; font-weight: 770; color: var(--on-surface); min-width: 72px; text-align: center; font-variant-numeric: tabular-nums; }
+.mod-courses .cs-day-hint { font-size: 10.5px; color: var(--on-surface-3); margin-left: auto; }

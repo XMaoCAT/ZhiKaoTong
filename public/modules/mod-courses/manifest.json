@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-courses",
+  "name": "课程",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["学生", "教师", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "课表中心：学生本班课表（周视图）+签到卡容器+新课停课实时通知；教师授课课表（P7 增强加课/请假）"
+}

@@ -1,0 +1,49 @@
+/* 整体布局：三栏外壳与主列（自 zhikaotong_seed_ui.html 拆分） */
+.sidebar, .agent-panel, .surface { background: var(--surface-card); border: 1px solid var(--outline); box-shadow: var(--shadow); }
+.app-shell { display: grid; grid-template-columns: 228px minmax(460px, 1fr) 326px; gap: 18px; max-width: 1920px; margin: 0 auto; padding: 18px; align-items: start; }
+
+/* 侧栏（宿主渲染的插槽内容：main.js renderSidebar → #sidebar）
+   ⚠ 坑：2026-10-21 插件化迁移时侧栏内部样式无任何文件承接（旧 panels/ 已删、legacy-archive 未收），.nav-item 等落回浏览器默认按钮样式致左栏裸排错位；侧栏属宿主底座，样式固定归位本文件，严禁挪入任何 mod-* */
+.sidebar { border-radius: 22px; padding: 14px 10px 12px; min-height: calc(100vh - 112px); display: flex; flex-direction: column; position: sticky; top: 94px; }
+.side-head { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px 18px; color: var(--on-surface-3); font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: .1em; }
+.nav-list { display: flex; flex-direction: column; gap: 5px; }
+.nav-item { width: 100%; text-align: left; border: 0; background: transparent; border-radius: 14px; display: flex; align-items: center; gap: 12px; padding: 12px 11px; color: var(--on-surface-2); transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); min-height: 47px; }
+.nav-item .nav-icon { width: 35px; height: 35px; border-radius: 12px; display: grid; place-items: center; background: var(--surface-low); color: var(--on-surface-2); transition: all .2s var(--ease); }
+.nav-item .nav-copy { flex: 1; min-width: 0; }
+.nav-item .nav-label { display: block; font-weight: 650; font-size: 12px; }
+.nav-item .nav-caption { display: block; font-size: 10px; color: var(--on-surface-3); margin-top: 3px; }
+.nav-item:hover { background: var(--surface-low); }
+.nav-item.active { background: var(--google-blue-soft); color: var(--google-blue); }
+.nav-item.active .nav-icon { background: var(--google-blue); color: white; box-shadow: 0 5px 13px rgba(26,115,232,.2); }
+.nav-item.active .nav-caption { color: var(--google-blue); opacity: .8; }
+.nav-count { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 8px; display: grid; place-items: center; font-size: 10px; font-weight: 750; color: var(--danger); background: var(--danger-soft); }
+.sidebar-spacer { flex: 1; min-height: 28px; }
+
+.main-column { min-width: 0; }
+
+@media (max-width: 1400px) {
+  .app-shell { grid-template-columns: 210px minmax(420px, 1fr) 300px; gap: 13px; padding: 13px; }
+}
+@media (max-width: 1180px) {
+  .app-shell { grid-template-columns: 205px minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .app-shell { display: block; padding: 12px; }
+  .sidebar { display: none; }
+}
+
+/* 预留模式：Agent 面板封存时收起第三栏，主列居中限宽 */
+.app-shell.no-agent { grid-template-columns: 228px minmax(460px, 1fr); }
+.app-shell.no-agent .agent-panel { display: none; }
+.app-shell.no-agent .main-column { max-width: 1080px; width: 100%; margin: 0 auto; }
+@media (max-width: 1400px) {
+  .app-shell.no-agent { grid-template-columns: 210px minmax(420px, 1fr); }
+}
+@media (max-width: 1180px) {
+  .app-shell.no-agent { grid-template-columns: 205px minmax(0, 1fr); }
+  .app-shell.no-agent .main-column { max-width: none; }
+}
+
+/* 手机端舞台（mobile 端口 / m-devN 调试端点）：宿主插槽基础布局，模块样式由 mod-mobile-home 自带 */
+.mobile-stage { display: none; padding: 24px 12px 60px; justify-content: center; align-items: flex-start; min-height: calc(100vh - 76px); background: radial-gradient(ellipse at 50% 10%, var(--google-blue-soft), transparent 44%); }
+.mobile-stage.mobile-active { display: flex; }

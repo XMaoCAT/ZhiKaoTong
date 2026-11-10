@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-student-leave",
+  "name": "请假管理",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc", "mobile"],
+  "allowedUserGroups": ["学生", "教师", "教务处", "学生处", "导员", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "请假申请与记录：四角色分级视图（学生发起/教师今日与历史双板块/导员审批/管理员台账）"
+}

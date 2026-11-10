@@ -1,0 +1,26 @@
+{
+  "host": "0.0.0.0",
+  "portStart": 8080,
+  "portEnd": 8090,
+  "autoOpenBrowser": true,
+  "webVersion": "2026.10.20-01",
+  "webNotes": "模块化拆分框架首版：板块目录化 + 分片上传排队 + SSE 进度 + 热更新",
+  "forceUpdate": false,
+  "chunkSize": 5242880,
+  "maxFileSize": 2147483648,
+  "allowedTypes": ["zip", "xlsx", "xls", "csv", "doc", "docx", "pdf", "png", "jpg", "jpeg", "txt", "pptx", "ppt", "json"],
+  "maxUploadSlots": 10,
+  "maxTaskConcurrency": 2,
+  "highCpuUsage": 0.85,
+  "lowCpuUsage": 0.5,
+  "highQueueLength": 200,
+  "lowQueueLength": 50,
+  "pressureCheckIntervalMs": 5000,
+  "plugins": {
+    "demo-import": "example-task.js"
+  }
+}
+
+
+
+

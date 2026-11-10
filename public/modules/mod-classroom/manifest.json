@@ -1,0 +1,12 @@
+{
+  "moduleId": "mod-classroom",
+  "name": "课堂管理",
+  "version": "1.0.0",
+  "enabled": true,
+  "mountSlot": "#mainViewContent",
+  "platforms": ["pc"],
+  "allowedUserGroups": ["教师", "IT管理员"],
+  "entry": "./index.js",
+  "style": "./style.css",
+  "description": "教师课堂：发起（口令/点击签到，预置请假）、随人、加减分、旷课（open 撤销/ended 引导审批）、历史记录"
+}

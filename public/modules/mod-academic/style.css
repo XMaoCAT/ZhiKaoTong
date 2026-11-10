@@ -1,0 +1,23 @@
+/* mod-academic：教务管理私有样式
+   骨架类（welcome-row / section-* / flow-* / chip-row / pick-chip / reason-input / leave-wizard 弹窗）均为宿主全局样式，此处严禁重复定义
+   班级管理共用布局类（.aca-top / .aca-main-tabs / .aca-pane-box / .aca-split / .aca-left / .aca-folders / .aca-folder / .aca-un-row / .aca-stu-* / .aca-requests / .aca-req-* / .aca-review-*）
+   已于 2026-10-24 P4 上浮宿主 components.css（mod-academic 与 mod-student-affairs 双模块共用），本文件仅保留教师管理私有样式
+   ⚠ 注释内严禁出现"星号紧跟斜杠"的连续字符序列（如把 section-* 与斜杠连写）——会提前闭合注释，导致后续首条规则被解析器整体吞掉（DEV_LOG 踩坑 #04） */
+
+/* 教师管理（P5 重构：专业部三件套） */
+.mod-academic .aca-major-main { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.mod-academic .aca-major-head { display: flex; align-items: center; justify-content: space-between; gap: 9px; }
+.mod-academic .aca-major-chips { display: flex; flex-direction: column; gap: 8px; }
+.mod-academic .aca-major-teachers { display: flex; flex-direction: column; gap: 8px; }
+.mod-academic .aca-counselor-zone { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--outline); padding-top: 12px; margin-top: 2px; }
+.mod-academic .aca-add-teacher { margin-top: 0; } /* 添加教师虚线框（复用全局 .aca-folder-add；置于未分配教师条目下方，间距由 .aca-left gap 10px 统一） */
+.mod-academic .aca-teachers { display: flex; flex-direction: column; gap: 9px; padding: 0 20px 16px; }
+.mod-academic .aca-teacher { border: 1px solid var(--outline); border-radius: 15px; background: var(--surface-card); overflow: hidden; }
+.mod-academic .aca-teacher.open { border-color: color-mix(in srgb, var(--google-blue) 40%, var(--outline)); }
+.mod-academic .aca-teacher-head { display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: transparent; padding: 13px 15px; cursor: pointer; text-align: left; font-size: 12px; }
+.mod-academic .aca-teacher-head:hover { background: var(--surface-low); }
+.mod-academic .aca-teacher-head strong { font-size: 13px; font-weight: 760; }
+.mod-academic .aca-teacher-cls { color: var(--on-surface-3); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mod-academic .aca-teacher.open .aca-teacher-head .icon { transform: rotate(180deg); }
+.mod-academic .aca-teacher-body { padding: 4px 15px 15px; border-top: 1px solid var(--outline); display: flex; flex-direction: column; gap: 10px; }
+.mod-academic .aca-teacher-foot { display: flex; justify-content: flex-end; }

@@ -1,0 +1,20 @@
+/* mod-student-affairs：学生处私有样式
+   布局复用宿主全局骨架类（P4 上浮）：aca-top / aca-main-tabs / aca-pane-box / aca-split /
+   aca-left / aca-folders / aca-folder / aca-un-row / aca-stu-* / aca-requests / aca-req-* / aca-review-*，
+   以及 segmented / section-card / flow-foot / leave-pill / chip-row / pick-chip / reason-input / leave-wizard 弹窗。 */
+
+/* 违规与积分（P8 §9.2） */
+.mod-student-affairs .vi-warn-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: var(--danger); color: #fff; border-radius: 13px; padding: 11px 14px; font-size: 12px; font-weight: 650; margin: 0 20px 12px; }
+.mod-student-affairs .vi-warn-bar b { font-weight: 800; font-size: 14px; }
+.mod-student-affairs .vi-warn-bar span { font-weight: 500; opacity: .92; }
+.mod-student-affairs .vi-warn-bar .icon { color: #fff; flex: 0 0 auto; }
+.mod-student-affairs .vi-section { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 14px; }
+.mod-student-affairs .vi-score { margin-left: auto; font-style: normal; font-size: 10.5px; font-weight: 750; color: var(--on-surface-2); background: var(--surface-low); border-radius: var(--radius-pill); padding: 3px 9px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mod-student-affairs .vi-score-red { color: #fff; background: var(--danger); }
+.mod-student-affairs .vi-row-cancelled { opacity: .55; }
+.mod-student-affairs .vi-pick input[type="radio"] { accent-color: var(--danger); width: 15px; height: 15px; flex: 0 0 auto; }
+.mod-student-affairs .vi-pick.vi-picked { border-color: var(--danger); background: var(--danger-soft); }
+
+/* 违规流水筛选 chips（C2 2026-10-29：类型×状态两组；组间分隔用弹性空隙） */
+.mod-student-affairs .vi-filter-chips { flex-wrap: wrap; }
+.mod-student-affairs .vi-filter-gap { flex: 1 1 14px; }

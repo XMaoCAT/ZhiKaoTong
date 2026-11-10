@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>智考通 · Smart Attendance Connect</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --app-bg: #F8FAFC;
+      --surface-card: #FFFFFF;
+      --surface-low: #F1F5F9;
+      --surface-mid: #E9EFF7;
+      --surface-high: #E3EAF4;
+      --on-surface: #0F172A;
+      --on-surface-2: #475569;
+      --on-surface-3: #64748B;
+      --outline: rgba(100, 116, 139, .18);
+      --outline-strong: rgba(100, 116, 139, .28);
+      --google-blue: #1A73E8;
+      --google-blue-soft: #E8F0FE;
+      --mint: #81C995;
+      --mint-ink: #17653B;
+      --mint-soft: #E7F6EC;
+      --amber: #FA903E;
+      --amber-ink: #8A460B;
+      --amber-soft: #FFF1E4;
+      --danger: #D93025;
+      --danger-soft: #FDE8E7;
+      --purple: #8B7CF6;
+      --shadow: 0 12px 35px rgba(15, 23, 42, .055);
+      --shadow-float: 0 18px 55px rgba(15, 23, 42, .11);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-pill: 9999px;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --app-bg: #0B0F17;
+      --surface-card: #161B26;
+      --surface-low: #1E2536;
+      --surface-mid: #242D40;
+      --surface-high: #2A354A;
+      --on-surface: #F8FAFC;
+      --on-surface-2: #CBD5E1;
+      --on-surface-3: #94A3B8;
+      --outline: rgba(148, 163, 184, .15);
+      --outline-strong: rgba(148, 163, 184, .26);
+      --google-blue: #76ACFF;
+      --google-blue-soft: #1B3153;
+      --mint: #81C995;
+      --mint-ink: #A8E6B9;
+      --mint-soft: #1A3428;
+      --amber: #FFAC69;
+      --amber-ink: #FFD0A8;
+      --amber-soft: #3B2A1F;
+      --danger: #FF8982;
+      --danger-soft: #3A2225;
+      --purple: #B3A9FF;
+      --shadow: 0 12px 35px rgba(0, 0, 0, .16);
+      --shadow-float: 0 18px 55px rgba(0, 0, 0, .32);
+    }
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--app-bg); scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; background: var(--app-bg); color: var(--on-surface); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; font-size: 14px; line-height: 1.45; transition: background .28s var(--ease), color .28s var(--ease); }
+    button, input, textarea { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid color-mix(in srgb, var(--google-blue) 52%, transparent); outline-offset: 2px; }
+    button { cursor: pointer; }
+    svg { display: block; }
+    .icon { width: 18px; height: 18px; flex: 0 0 auto; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .icon.small { width: 15px; height: 15px; }
+    .icon.large { width: 22px; height: 22px; }
+    .app-root { min-height: 100vh; }
+    .topbar { height: 76px; padding: 0 24px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--outline); background: color-mix(in srgb, var(--surface-card) 88%, transparent); backdrop-filter: blur(18px); position: sticky; top: 0; z-index: 30; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 248px; }
+    .brand-mark { width: 42px; height: 42px; border-radius: 15px; color: white; display: grid; place-items: center; position: relative; overflow: hidden; background: linear-gradient(145deg, #2B8AF5, #1558C7); box-shadow: 0 8px 20px rgba(26, 115, 232, .25), inset 0 1px 1px rgba(255,255,255,.45); }
+    .brand-mark::after { content: ""; position: absolute; width: 70px; height: 70px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; transform: translate(12px, 14px); }
+    .brand-mark .icon { width: 23px; height: 23px; stroke-width: 2; position: relative; z-index: 1; }
+    .brand-title { font-weight: 780; letter-spacing: -.035em; font-size: 18px; line-height: 1.2; }
+    .brand-subtitle { color: var(--on-surface-3); font-size: 11px; margin-top: 4px; letter-spacing: .025em; }
+    .topbar-center { flex: 1; display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .workspace-label { color: var(--on-surface-2); white-space: nowrap; font-size: 13px; }
+    .search-box { height: 40px; width: min(320px, 100%); border: 1px solid var(--outline); background: var(--surface-low); border-radius: var(--radius-pill); display: flex; align-items: center; gap: 9px; padding: 0 14px; color: var(--on-surface-3); }
+    .search-box input { border: 0; outline: 0; background: transparent; color: var(--on-surface); width: 100%; min-width: 0; }
+    .search-box input::placeholder { color: var(--on-surface-3); }
+    .topbar-actions { display: flex; align-items: center; gap: 9px; }
+    .segmented { display: inline-flex; align-items: center; gap: 3px; padding: 4px; background: var(--surface-low); border: 1px solid var(--outline); border-radius: var(--radius-pill); }
+    .segmented button { border: 0; background: transparent; color: var(--on-surface-2); border-radius: var(--radius-pill); min-height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 7px; transition: all .2s var(--ease); }
+    .segmented button.active { color: var(--google-blue); background: var(--surface-card); box-shadow: 0 2px 8px rgba(15,23,42,.08); }
+    .icon-button { width: 40px; height: 40px; border: 1px solid var(--outline); border-radius: 50%; display: grid; place-items: center; background: var(--surface-card); color: var(--on-surface-2); transition: transform .2s var(--ease), background .2s var(--ease); }
+    .icon-button:hover { background: var(--surface-low); transform: translateY(-1px); }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: #23447B; font-weight: 750; background: linear-gradient(145deg, #D9EAFE, #A5C9FF); border: 2px solid var(--surface-card); box-shadow: 0 0 0 1px var(--outline); }
+    .prototype-badge { display: inline-flex; align-items: center; gap: 6px; border-radius: var(--radius-pill); padding: 6px 10px; background: var(--amber-soft); color: var(--amber-ink); font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .prototype-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+
+    .app-shell { display: grid; grid-template-columns: 228px minmax(460px, 1fr) 326px; gap: 18px; max-width: 1920px; margin: 0 auto; padding: 18px; align-items: start; }
+    .sidebar, .agent-panel, .surface { background: var(--surface-card); border: 1px solid var(--outline); box-shadow: var(--shadow); }
+    .sidebar { border-radius: 22px; padding: 14px 10px 12px; min-height: calc(100vh - 112px); display: flex; flex-direction: column; position: sticky; top: 94px; }
+    .side-head { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px 18px; color: var(--on-surface-3); font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: .1em; }
+    .side-head .campus-chip { text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 10px; border: 1px solid var(--outline); border-radius: 8px; padding: 4px 6px; color: var(--on-surface-2); }
+    .nav-list { display: flex; flex-direction: column; gap: 5px; }
+    .nav-item { width: 100%; text-align: left; border: 0; background: transparent; border-radius: 14px; display: flex; align-items: center; gap: 12px; padding: 12px 11px; color: var(--on-surface-2); transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); min-height: 47px; }
+    .nav-item .nav-icon { width: 35px; height: 35px; border-radius: 12px; display: grid; place-items: center; background: var(--surface-low); color: var(--on-surface-2); transition: all .2s var(--ease); }
+    .nav-item .nav-copy { flex: 1; min-width: 0; }
+    .nav-item .nav-label { display: block; font-weight: 650; font-size: 12px; }
+    .nav-item .nav-caption { display: block; font-size: 10px; color: var(--on-surface-3); margin-top: 3px; }
+    .nav-item:hover { background: var(--surface-low); }
+    .nav-item.active { background: var(--google-blue-soft); color: var(--google-blue); }
+    .nav-item.active .nav-icon { background: var(--google-blue); color: white; box-shadow: 0 5px 13px rgba(26,115,232,.2); }
+    .nav-item.active .nav-caption { color: var(--google-blue); opacity: .8; }
+    .nav-count { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 8px; display: grid; place-items: center; font-size: 10px; font-weight: 750; color: var(--danger); background: var(--danger-soft); }
+    .sidebar-spacer { flex: 1; min-height: 28px; }
+    .sandbox-card { border-radius: 17px; padding: 14px; margin: 10px 3px 3px; background: linear-gradient(145deg, var(--surface-low), var(--surface-card)); border: 1px solid var(--outline); position: relative; overflow: hidden; }
+    .sandbox-head { display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+    .shield-wrap { width: 39px; height: 39px; border-radius: 13px; display: grid; place-items: center; background: var(--surface-card); color: var(--google-blue); box-shadow: inset 0 1px 2px rgba(255,255,255,.6), 0 5px 12px rgba(15,23,42,.07); }
+    .sandbox-title { font-size: 12px; font-weight: 750; }
+    .sandbox-sub { color: var(--on-surface-3); font-size: 10px; margin-top: 3px; }
+    .secure-line { display: flex; gap: 7px; align-items: center; color: var(--mint-ink); font-size: 10px; margin-top: 12px; }
+    .secure-line .icon { width: 13px; height: 13px; }
+    .sandbox-foot { color: var(--on-surface-3); font-size: 10px; line-height: 1.6; margin-top: 8px; }
+
+    .main-column { min-width: 0; }
+    .welcome-row { padding: 3px 2px 16px; display: flex; align-items: flex-end; justify-content: space-between; gap: 15px; }
+    .eyebrow { display: flex; align-items: center; gap: 8px; color: var(--google-blue); text-transform: uppercase; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+    .eyebrow .spark { width: 7px; height: 7px; background: var(--google-blue); border-radius: 50%; box-shadow: 0 0 0 4px var(--google-blue-soft); }
+    h1 { font-size: clamp(24px, 2vw, 31px); letter-spacing: -.055em; line-height: 1.15; margin: 8px 0 7px; font-weight: 780; }
+    .welcome-copy { color: var(--on-surface-2); font-size: 12px; }
+    .welcome-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .btn { border: 1px solid var(--outline); background: var(--surface-card); color: var(--on-surface-2); min-height: 39px; padding: 0 13px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 650; font-size: 12px; transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease); white-space: nowrap; }
+    .btn:hover { background: var(--surface-low); transform: translateY(-1px); }
+    .btn.primary { color: #fff; border-color: transparent; background: linear-gradient(135deg, #287FE9, #1766D1); box-shadow: 0 7px 16px rgba(26,115,232,.2); }
+    .btn.primary:hover { box-shadow: 0 10px 22px rgba(26,115,232,.28); background: linear-gradient(135deg, #398CF1, #1766D1); }
+    .btn.tonal { color: var(--google-blue); border-color: transparent; background: var(--google-blue-soft); }
+    .btn.compact { min-height: 32px; padding: 0 10px; font-size: 11px; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .shift-strip { display: flex; align-items: center; gap: 12px; padding: 11px 15px; border-radius: 14px; background: var(--surface-low); color: var(--on-surface-2); font-size: 11px; margin-bottom: 15px; overflow-x: auto; white-space: nowrap; }
+    .shift-strip .shift-mark { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 10px; color: var(--google-blue); background: var(--google-blue-soft); }
+    .shift-strip strong { color: var(--on-surface); font-weight: 750; }
+    .shift-sep { width: 4px; height: 4px; background: var(--on-surface-3); border-radius: 50%; opacity: .5; flex: 0 0 auto; }
+    .live-label { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--mint-ink); font-size: 10px; }
+    .live-label::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--mint); }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 17px; }
+    .kpi-card { min-width: 0; border-radius: 19px; padding: 16px 15px 14px; position: relative; overflow: hidden; background: var(--surface-card); border: 1px solid var(--outline); box-shadow: var(--shadow); isolation: isolate; }
+    .kpi-card::before { content: ""; pointer-events: none; position: absolute; z-index: -1; inset: 0; opacity: .6; background: radial-gradient(circle at var(--mx, 70%) var(--my, 0%), color-mix(in srgb, var(--glow, var(--google-blue)) 11%, transparent), transparent 54%), repeating-linear-gradient(116deg, transparent 0 11px, rgba(125,145,180,.025) 11px 12px); }
+    .kpi-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; color: var(--on-surface-2); font-size: 11px; font-weight: 650; }
+    .kpi-icon { width: 31px; height: 31px; border-radius: 11px; display: grid; place-items: center; color: var(--kpi-color, var(--google-blue)); background: var(--kpi-soft, var(--google-blue-soft)); }
+    .kpi-value { font-size: clamp(22px, 2vw, 30px); letter-spacing: -.06em; font-weight: 780; margin-top: 10px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-bottom { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 10px; color: var(--on-surface-3); white-space: nowrap; }
+    .trend { color: var(--mint-ink); display: inline-flex; align-items: center; gap: 2px; font-weight: 750; }
+    .trend.warning { color: var(--amber-ink); }
+    .trend.danger { color: var(--danger); }
+    .section-card { border-radius: var(--radius-xl); overflow: hidden; margin-bottom: 16px; }
+    .section-header { padding: 19px 20px 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .section-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 770; letter-spacing: -.025em; }
+    .section-subtitle { color: var(--on-surface-3); font-size: 11px; margin-top: 5px; }
+    .section-head-icon { width: 34px; height: 34px; border-radius: 12px; display: grid; place-items: center; background: var(--google-blue-soft); color: var(--google-blue); }
+    .section-tools { display: flex; gap: 7px; align-items: center; flex-shrink: 0; }
+    .filter-row { padding: 0 20px 15px; display: flex; align-items: center; gap: 7px; border-bottom: 1px solid var(--outline); overflow-x: auto; }
+    .filter-chip { border: 1px solid var(--outline); background: var(--surface-card); color: var(--on-surface-2); font-size: 10px; padding: 7px 11px; border-radius: var(--radius-pill); white-space: nowrap; }
+    .filter-chip.active { border-color: transparent; background: var(--google-blue-soft); color: var(--google-blue); font-weight: 750; }
+    .filter-spacer { flex: 1; }
+    .table-scroll { overflow-x: auto; }
+    .attendance-table { border-collapse: collapse; width: 100%; min-width: 650px; text-align: left; font-size: 11px; }
+    .attendance-table thead { background: var(--surface-low); color: var(--on-surface-3); font-size: 10px; }
+    .attendance-table th { padding: 12px 14px; font-weight: 750; white-space: nowrap; }
+    .attendance-table td { padding: 13px 14px; border-top: 1px solid var(--outline); color: var(--on-surface-2); white-space: nowrap; }
+    .attendance-table tbody tr { transition: background .18s ease; }
+    .attendance-table tbody tr:hover { background: color-mix(in srgb, var(--surface-low) 70%, transparent); }
+    .student-cell { display: flex; align-items: center; gap: 9px; color: var(--on-surface); font-weight: 700; }
+    .student-avatar { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; font-size: 10px; font-weight: 750; background: var(--avatar-bg, var(--google-blue-soft)); color: var(--avatar-color, var(--google-blue)); }
+    .student-meta { color: var(--on-surface-3); font-weight: 450; font-size: 9px; margin-top: 3px; }
+    .status-pill { display: inline-flex; align-items: center; gap: 5px; border-radius: var(--radius-pill); padding: 5px 8px; font-weight: 750; font-size: 10px; }
+    .status-pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+    .status-success { color: var(--mint-ink); background: var(--mint-soft); }
+    .status-pending { color: var(--amber-ink); background: var(--amber-soft); }
+    .status-danger { color: var(--danger); background: var(--danger-soft); }
+    .status-neutral { color: var(--on-surface-2); background: var(--surface-low); }
+    .text-link { border: 0; background: transparent; color: var(--google-blue); font-size: 10px; font-weight: 750; padding: 4px 0; }
+    .table-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 20px; border-top: 1px solid var(--outline); color: var(--on-surface-3); font-size: 10px; }
+    .pagination { display: flex; align-items: center; gap: 5px; }
+    .page-btn { height: 26px; min-width: 26px; border: 1px solid var(--outline); border-radius: 8px; background: var(--surface-card); font-size: 10px; color: var(--on-surface-2); }
+    .page-btn.current { color: var(--google-blue); border-color: transparent; background: var(--google-blue-soft); font-weight: 800; }
+    .lower-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 15px; }
+    .mini-panel { border-radius: 20px; padding: 18px; min-width: 0; }
+    .mini-panel-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
+    .mini-panel-title { display: flex; gap: 9px; align-items: center; font-size: 12px; font-weight: 750; }
+    .mini-panel-title .section-head-icon { width: 30px; height: 30px; }
+    .mini-kpi-row { display: flex; gap: 8px; }
+    .mini-metric { flex: 1; padding: 11px; min-width: 0; border-radius: 13px; background: var(--surface-low); }
+    .mini-metric strong { display: block; font-size: 19px; letter-spacing: -.04em; }
+    .mini-metric span { display: block; color: var(--on-surface-3); font-size: 10px; margin-top: 4px; }
+    .mini-note { display: flex; align-items: flex-start; gap: 9px; padding: 11px 12px; border-radius: 13px; background: var(--amber-soft); color: var(--amber-ink); margin-top: 11px; font-size: 10px; line-height: 1.55; }
+    .mini-note .icon { width: 15px; height: 15px; margin-top: 1px; }
+    .report-preview { border: 1px solid var(--outline); border-radius: 13px; padding: 13px; background: var(--surface-low); }
+    .report-top { display: flex; align-items: center; gap: 10px; }
+    .doc-icon { width: 35px; height: 40px; border-radius: 7px; color: #3272C8; display: grid; place-items: center; background: var(--surface-card); border: 1px solid var(--outline); }
+    .report-name { font-size: 11px; font-weight: 750; }
+    .report-meta { font-size: 9px; color: var(--on-surface-3); margin-top: 3px; }
+    .report-lines { display: grid; gap: 6px; margin-top: 13px; }
+    .report-line { height: 5px; border-radius: 9px; background: var(--surface-high); }
+    .report-line:nth-child(2) { width: 82%; }
+    .report-line:nth-child(3) { width: 68%; }
+    .report-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 13px; }
+    .generated-stamp { display: inline-flex; align-items: center; gap: 5px; color: var(--mint-ink); background: var(--mint-soft); border-radius: 7px; padding: 5px 7px; font-size: 9px; font-weight: 800; }
+
+    .agent-panel { border-radius: 22px; padding: 17px; min-height: calc(100vh - 112px); position: sticky; top: 94px; display: flex; flex-direction: column; gap: 15px; min-width: 0; }
+    .agent-head { display: flex; align-items: center; gap: 11px; }
+    .agent-orb { width: 42px; height: 42px; flex: 0 0 auto; border-radius: 16px; display: grid; place-items: center; color: white; background: radial-gradient(circle at 28% 22%, #78D9FF 0, #3488F1 32%, #6C5CE7 78%); box-shadow: 0 8px 20px rgba(73, 121, 235, .24), inset 0 1px 1px rgba(255,255,255,.6); position: relative; }
+    .agent-orb::after { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(255,255,255,.4); border-radius: 12px; transform: rotate(12deg); }
+    .agent-orb .icon { position: relative; z-index: 1; }
+    .agent-name { font-size: 13px; font-weight: 780; letter-spacing: -.02em; }
+    .agent-caption { color: var(--on-surface-3); font-size: 10px; margin-top: 4px; }
+    .online-dot { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px var(--mint-soft); }
+    .agent-summary { padding: 14px; border-radius: 16px; background: linear-gradient(135deg, var(--google-blue-soft), var(--surface-low)); border: 1px solid var(--outline); }
+    .agent-summary-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .agent-summary-title { font-size: 11px; font-weight: 750; }
+    .soft-label { font-size: 9px; color: var(--google-blue); background: var(--surface-card); border-radius: 7px; padding: 4px 6px; font-weight: 750; }
+    .agent-summary p { font-size: 10px; line-height: 1.65; color: var(--on-surface-2); margin: 8px 0 0; }
+    .tracker-heading { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 750; }
+    .tracker-heading small { font-size: 10px; font-weight: 550; color: var(--on-surface-3); }
+    .tracker { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .tracker-step { display: grid; grid-template-columns: 25px minmax(0, 1fr); gap: 10px; position: relative; padding-bottom: 17px; }
+    .tracker-step:not(:last-child)::after { content: ""; position: absolute; left: 12px; top: 26px; bottom: 0; width: 1px; background: var(--outline-strong); }
+    .step-icon { z-index: 1; width: 25px; height: 25px; border-radius: 9px; display: grid; place-items: center; background: var(--surface-low); color: var(--on-surface-3); border: 1px solid var(--outline); }
+    .tracker-step.done .step-icon { color: var(--mint-ink); background: var(--mint-soft); border-color: transparent; }
+    .tracker-step.running .step-icon { color: white; background: var(--google-blue); border-color: transparent; box-shadow: 0 0 0 4px var(--google-blue-soft); animation: pulse-ring 2s infinite; }
+    .tracker-step.waiting .step-icon { opacity: .7; }
+    @keyframes pulse-ring { 0%,100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--google-blue) 15%, transparent); } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--google-blue) 5%, transparent); } }
+    .step-title-row { display: flex; justify-content: space-between; align-items: center; gap: 5px; }
+    .step-title { font-size: 10px; font-weight: 750; }
+    .step-time { font-size: 9px; color: var(--on-surface-3); font-variant-numeric: tabular-nums; }
+    .step-desc { color: var(--on-surface-3); font-size: 9px; line-height: 1.45; margin-top: 4px; }
+    .step-bar { height: 4px; background: var(--surface-high); border-radius: 10px; overflow: hidden; margin-top: 7px; }
+    .step-bar > span { display: block; height: 100%; width: var(--progress, 100%); background: var(--google-blue); border-radius: inherit; transition: width .45s var(--ease); }
+    .tracker-step.done .step-bar > span { background: var(--mint); }
+    .tracker-step.waiting .step-bar > span { width: 0 !important; }
+    .tracker-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--outline); padding-top: 11px; color: var(--on-surface-3); font-size: 9px; }
+    .tracker-bottom strong { color: var(--on-surface); }
+    .chat-section { margin-top: auto; border-top: 1px solid var(--outline); padding-top: 14px; }
+    .chat-title { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 750; margin-bottom: 10px; }
+    .chat-title .muted { color: var(--on-surface-3); font-size: 9px; font-weight: 550; }
+    .quick-prompts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .prompt-chip { color: var(--google-blue); border: 1px solid color-mix(in srgb, var(--google-blue) 20%, var(--outline)); background: var(--google-blue-soft); border-radius: var(--radius-pill); padding: 7px 9px; font-size: 9px; font-weight: 700; text-align: left; }
+    .prompt-chip:hover { border-color: var(--google-blue); }
+    .chat-box { border: 1px solid var(--outline-strong); border-radius: 16px; padding: 10px; background: var(--surface-low); transition: border-color .2s ease, box-shadow .2s ease; }
+    .chat-box.dragging { border-color: var(--google-blue); box-shadow: 0 0 0 4px var(--google-blue-soft); }
+    .chat-input { width: 100%; resize: vertical; min-height: 45px; max-height: 110px; border: 0; outline: 0; color: var(--on-surface); background: transparent; font-size: 11px; line-height: 1.5; }
+    .chat-input::placeholder { color: var(--on-surface-3); }
+    .attached-file { display: none; align-items: center; gap: 6px; padding: 6px 8px; margin: 5px 0; border-radius: 9px; background: var(--surface-card); border: 1px solid var(--outline); font-size: 9px; color: var(--on-surface-2); }
+    .attached-file.show { display: flex; }
+    .attached-file .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .attached-file button { border: 0; background: transparent; color: var(--on-surface-3); padding: 2px; }
+    .chat-tools { display: flex; align-items: center; justify-content: space-between; gap: 7px; margin-top: 6px; }
+    .chat-tool-left { display: flex; gap: 5px; }
+    .chat-tool { display: grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 10px; color: var(--on-surface-2); background: transparent; }
+    .chat-tool:hover { background: var(--surface-high); }
+    .send-btn { width: 34px; height: 34px; border: 0; border-radius: 12px; color: white; background: var(--google-blue); display: grid; place-items: center; box-shadow: 0 4px 12px rgba(26,115,232,.22); }
+    .privacy-note { margin-top: 8px; color: var(--on-surface-3); display: flex; align-items: center; gap: 6px; font-size: 9px; line-height: 1.5; }
+    .privacy-note .icon { color: var(--mint-ink); width: 13px; height: 13px; }
+
+    .mobile-stage { display: none; padding: 24px 12px 60px; justify-content: center; align-items: flex-start; min-height: calc(100vh - 76px); background: radial-gradient(ellipse at 50% 10%, var(--google-blue-soft), transparent 44%); }
+    .phone-frame { width: 390px; max-width: 100%; padding: 9px; border-radius: 43px; background: #111827; box-shadow: 0 25px 75px rgba(15, 23, 42, .25), inset 0 0 0 1px rgba(255,255,255,.2); position: relative; }
+    .phone-frame::before { content: ""; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 88px; height: 22px; border-radius: var(--radius-pill); background: #111827; z-index: 3; }
+    .phone-screen { border-radius: 35px; overflow: hidden; background: var(--app-bg); min-height: 790px; position: relative; border: 1px solid rgba(255,255,255,.1); }
+    .phone-status { height: 36px; padding: 8px 22px 0; display: flex; justify-content: space-between; align-items: center; color: var(--on-surface); font-size: 10px; font-weight: 800; }
+    .phone-status-icons { display: flex; gap: 5px; align-items: center; }
+    .phone-top { display: flex; justify-content: space-between; align-items: center; padding: 13px 17px 10px; }
+    .phone-brand { display: flex; gap: 9px; align-items: center; }
+    .phone-brand .brand-mark { width: 34px; height: 34px; border-radius: 12px; }
+    .phone-brand .brand-title { font-size: 14px; }
+    .phone-brand .brand-subtitle { font-size: 9px; margin-top: 2px; }
+    .role-switch { display: flex; gap: 3px; padding: 4px; border-radius: var(--radius-pill); background: var(--surface-low); margin: 5px 15px 14px; }
+    .role-switch button { border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--on-surface-3); padding: 8px 0; flex: 1; font-size: 9px; font-weight: 700; }
+    .role-switch button.active { color: var(--google-blue); background: var(--surface-card); box-shadow: 0 2px 7px rgba(15,23,42,.08); }
+    .mobile-content { padding: 0 15px 93px; }
+    .mobile-greeting { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 15px; }
+    .mobile-greeting h2 { font-size: 22px; letter-spacing: -.055em; line-height: 1.18; margin: 0; }
+    .mobile-greeting p { color: var(--on-surface-3); font-size: 10px; margin: 6px 0 0; }
+    .date-chip { padding: 7px 9px; border: 1px solid var(--outline); border-radius: 11px; font-size: 9px; color: var(--on-surface-2); white-space: nowrap; }
+    .checkin-card { border-radius: 24px; padding: 18px 16px 16px; background: linear-gradient(150deg, var(--surface-card), var(--surface-low)); border: 1px solid var(--outline); box-shadow: var(--shadow); text-align: center; position: relative; overflow: hidden; }
+    .checkin-card::before { content: ""; position: absolute; inset: -40%; pointer-events: none; background: radial-gradient(circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--google-blue) 16%, transparent), transparent 48%); }
+    .checkin-label { position: relative; font-size: 10px; color: var(--on-surface-3); font-weight: 650; }
+    .checkin-time { position: relative; font-size: 35px; line-height: 1.1; font-weight: 800; letter-spacing: -.06em; margin-top: 5px; font-variant-numeric: tabular-nums; }
+    .checkin-date { position: relative; font-size: 10px; color: var(--on-surface-3); margin-top: 4px; }
+    .checkin-dial { position: relative; width: 164px; height: 164px; margin: 18px auto 14px; border-radius: 50%; padding: 9px; background: conic-gradient(from 220deg, #236DE0, #62BCFF, #94D8FF, #236DE0, #236DE0); box-shadow: 0 12px 26px rgba(26,115,232,.22), inset 0 2px 3px rgba(255,255,255,.65); transition: transform .25s var(--ease), filter .25s var(--ease); }
+    .checkin-dial::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; }
+    .checkin-dial button { width: 100%; height: 100%; border: 1px solid rgba(26,115,232,.16); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; background: radial-gradient(circle at 33% 20%, var(--surface-card), var(--surface-low)); color: var(--google-blue); box-shadow: inset 0 3px 8px rgba(255,255,255,.4), inset 0 -7px 15px rgba(26,115,232,.06); }
+    .checkin-dial button span { font-size: 15px; font-weight: 800; }
+    .checkin-dial button small { color: var(--on-surface-3); font-size: 9px; }
+    .checkin-dial:active { transform: scale(.96); filter: brightness(1.06); }
+    .mobile-location { position: relative; display: flex; justify-content: center; align-items: center; gap: 6px; color: var(--mint-ink); font-size: 10px; }
+    .mobile-location .icon { width: 14px; height: 14px; }
+    .mobile-info-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+    .mobile-info-card { border-radius: 16px; padding: 12px; border: 1px solid var(--outline); background: var(--surface-card); }
+    .mobile-info-top { display: flex; align-items: center; gap: 6px; color: var(--on-surface-3); font-size: 9px; }
+    .mobile-info-top .icon { width: 15px; height: 15px; color: var(--google-blue); }
+    .mobile-info-card strong { display: block; font-size: 13px; margin-top: 9px; }
+    .mobile-info-card small { display: block; font-size: 9px; color: var(--on-surface-3); margin-top: 4px; }
+    .leave-upload { border: 1px dashed color-mix(in srgb, var(--google-blue) 45%, var(--outline)); background: var(--google-blue-soft); border-radius: 17px; padding: 13px; display: flex; align-items: center; gap: 11px; text-align: left; width: 100%; color: var(--on-surface); }
+    .upload-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 13px; background: var(--surface-card); color: var(--google-blue); }
+    .leave-upload strong { font-size: 11px; display: block; }
+    .leave-upload small { color: var(--on-surface-3); font-size: 9px; display: block; margin-top: 4px; }
+    .swipe-card { margin-top: 13px; padding: 14px; border-radius: 18px; background: var(--surface-card); border: 1px solid var(--outline); box-shadow: var(--shadow); touch-action: pan-y; transition: transform .22s var(--ease); }
+    .swipe-card.swiped { transform: translateX(7px); }
+    .swipe-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .swipe-title { display: flex; gap: 8px; align-items: center; font-size: 11px; font-weight: 750; }
+    .swipe-tag { color: var(--amber-ink); background: var(--amber-soft); border-radius: 7px; padding: 4px 6px; font-size: 9px; font-weight: 750; }
+    .swipe-card p { color: var(--on-surface-3); font-size: 10px; margin: 9px 0 12px; line-height: 1.5; }
+    .swipe-actions { display: flex; justify-content: flex-end; gap: 7px; }
+    .phone-bottom-nav { position: absolute; z-index: 2; bottom: 0; left: 0; right: 0; min-height: 77px; padding: 8px 9px 15px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; align-items: end; background: color-mix(in srgb, var(--surface-card) 92%, transparent); backdrop-filter: blur(16px); border-top: 1px solid var(--outline); }
+    .phone-nav-item { border: 0; background: transparent; color: var(--on-surface-3); display: flex; flex-direction: column; gap: 5px; align-items: center; justify-content: center; font-size: 8px; font-weight: 650; padding: 5px 0; }
+    .phone-nav-item.active { color: var(--google-blue); }
+    .phone-nav-item .nav-ico-wrap { width: 46px; height: 25px; border-radius: 14px; display: grid; place-items: center; }
+    .phone-nav-item.active .nav-ico-wrap { background: var(--google-blue-soft); }
+    .phone-ai-button { align-self: start; transform: translateY(-21px); }
+    .phone-ai-button .ai-ball { display: grid; place-items: center; width: 51px; height: 51px; border-radius: 19px; color: white; background: radial-gradient(circle at 27% 20%, #72D6FF, #3C82EE 45%, #7457DA 90%); border: 3px solid var(--surface-card); box-shadow: 0 7px 16px rgba(61,119,235,.28); }
+    .phone-ai-button span:last-child { margin-top: 0; }
+    .mobile-safety-note { text-align: center; color: var(--on-surface-3); font-size: 9px; margin: 12px 0 0; }
+
+    .toast-region { position: fixed; z-index: 100; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+    .toast { max-width: min(90vw, 560px); display: flex; align-items: center; gap: 9px; border-radius: var(--radius-pill); padding: 12px 16px; color: var(--surface-card); background: var(--on-surface); box-shadow: var(--shadow-float); font-size: 12px; animation: toast-in .24s var(--ease); }
+    .toast .icon { color: var(--mint); width: 16px; height: 16px; }
+    @keyframes toast-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal-backdrop { position: fixed; z-index: 80; inset: 0; background: rgba(5, 11, 22, .42); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-backdrop.open { display: flex; }
+    .modal { width: min(460px, 100%); border-radius: 24px; background: var(--surface-card); color: var(--on-surface); border: 1px solid var(--outline); padding: 22px; box-shadow: var(--shadow-float); animation: toast-in .2s var(--ease); }
+    .modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
+    .modal-header h3 { margin: 0; font-size: 18px; letter-spacing: -.04em; }
+    .modal-header p { margin: 7px 0 0; font-size: 11px; color: var(--on-surface-3); line-height: 1.6; }
+    .modal-body { margin: 18px 0; padding: 14px; border-radius: 15px; background: var(--surface-low); font-size: 12px; color: var(--on-surface-2); line-height: 1.7; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+    .slot-note { margin-top: 14px; padding: 13px 15px; border: 1px dashed var(--outline-strong); border-radius: 14px; color: var(--on-surface-3); font-size: 10px; line-height: 1.65; }
+    .slot-note code { color: var(--google-blue); font-size: 10px; }
+    .placeholder-page { min-height: 500px; padding: 30px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+    .placeholder-icon { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 19px; background: var(--google-blue-soft); color: var(--google-blue); margin-bottom: 19px; }
+    .placeholder-page h2 { margin: 0; font-size: 25px; letter-spacing: -.05em; }
+    .placeholder-page p { max-width: 510px; font-size: 12px; color: var(--on-surface-2); line-height: 1.8; }
+    .placeholder-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; margin-top: 15px; }
+    .placeholder-tile { border-radius: 15px; padding: 16px; border: 1px solid var(--outline); background: var(--surface-low); }
+    .placeholder-tile strong { font-size: 12px; display: block; }
+    .placeholder-tile span { display: block; margin-top: 7px; color: var(--on-surface-3); font-size: 10px; line-height: 1.6; }
+    .message-log { display: none; flex-direction: column; gap: 8px; max-height: 140px; overflow: auto; margin-bottom: 10px; }
+    .message-log.show { display: flex; }
+    .chat-message { align-self: flex-end; max-width: 94%; border-radius: 13px 13px 4px 13px; background: var(--google-blue-soft); color: var(--google-blue); padding: 9px 11px; font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+    .chat-message.system { align-self: flex-start; border-radius: 13px 13px 13px 4px; background: var(--surface-card); border: 1px solid var(--outline); color: var(--on-surface-2); }
+    .footer-note { color: var(--on-surface-3); font-size: 9px; line-height: 1.6; padding: 4px 3px 10px; }
+
+    /* Normal-map-inspired micro-surface: procedural grain + cursor-tracked specular highlight. */
+    .normal-mapped-surface { --mx: 52%; --my: 20%; position: relative; isolation: isolate; }
+    .normal-mapped-surface::after { content: ""; position: absolute; inset: 0; z-index: 5; border-radius: inherit; pointer-events: none; background: radial-gradient(170px circle at var(--mx) var(--my), rgba(255,255,255,.34), color-mix(in srgb, var(--google-blue) 7%, transparent) 30%, transparent 72%); opacity: .52; mix-blend-mode: screen; transition: opacity .25s ease; }
+    html[data-theme="dark"] .normal-mapped-surface::after { background: radial-gradient(170px circle at var(--mx) var(--my), rgba(96,182,255,.22), rgba(26,115,232,.07) 32%, transparent 75%); opacity: .8; }
+    .normal-mapped-surface:hover::after { opacity: .95; }
+    .fine-grain { background-image: repeating-linear-gradient(115deg, transparent 0 7px, rgba(125,145,180,.025) 7px 8px); }
+    .modal-close { width: 33px; height: 33px; display: grid; place-items: center; border: 1px solid var(--outline); background: var(--surface-low); border-radius: 50%; }
+
+    @media (max-width: 1400px) {
+      .app-shell { grid-template-columns: 210px minmax(420px, 1fr) 300px; gap: 13px; padding: 13px; }
+      .topbar { padding: 0 18px; }
+      .brand { min-width: 215px; }
+      .kpi-card { padding: 14px 12px; }
+      .kpi-grid { gap: 9px; }
+      .agent-panel { padding: 14px; }
+    }
+    @media (max-width: 1180px) {
+      .app-shell { grid-template-columns: 205px minmax(0, 1fr); }
+      .agent-panel { display: none; }
+      .brand { min-width: unset; }
+      .brand-subtitle { display: none; }
+      .topbar-center { justify-content: center; }
+      .workspace-label { display: none; }
+    }
+    @media (max-width: 760px) {
+      .topbar { height: 66px; padding: 0 13px; gap: 12px; }
+      .brand-mark { width: 37px; height: 37px; border-radius: 13px; }
+      .brand-title { font-size: 16px; }
+      .brand { gap: 9px; }
+      .topbar-center { display: none; }
+      .topbar-actions { margin-left: auto; }
+      .topbar-actions .segmented button { min-height: 31px; padding: 0 9px; }
+      .prototype-badge { display: none; }
+      .app-shell { display: block; padding: 12px; }
+      .sidebar, .agent-panel { display: none; }
+      .welcome-row { align-items: flex-start; flex-direction: column; }
+      .welcome-actions { width: 100%; }
+      .welcome-actions .btn { flex: 1; }
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .kpi-value { font-size: 27px; }
+      .lower-grid { grid-template-columns: 1fr; }
+      .section-header { padding: 16px 14px 12px; }
+      .filter-row { padding: 0 14px 13px; }
+      .table-footer { padding: 12px 14px; }
+      .shift-strip { gap: 9px; }
+      .mobile-stage { padding-top: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Inline SVG lighting filter. Light position is updated by pointer movement in the script. -->
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute; pointer-events:none" xmlns="http://www.w3.org/2000/svg">
+    <filter id="shieldSpecular" x="-40%" y="-40%" width="180%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035 0.08" numOctaves="2" seed="7" result="microNoise" />
+      <feGaussianBlur in="microNoise" stdDeviation="0.45" result="bumpField" />
+      <feSpecularLighting in="bumpField" surfaceScale="2.8" specularConstant="0.62" specularExponent="18" lighting-color="#BBDFFF" result="specular">
+        <fePointLight id="dynamicPointLight" x="80" y="22" z="60" />
+      </feSpecularLighting>
+      <feComposite in="specular" in2="SourceAlpha" operator="in" result="specularClip" />
+      <feBlend in="SourceGraphic" in2="specularClip" mode="screen" />
+    </filter>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v5.5c0 4.7-3.2 7.8-8 9.5-4.8-1.7-8-4.8-8-9.5V6l8-3Z"/><path d="m8.4 12.1 2.3 2.3 4.9-5"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m8 15 2 2 5-4"/></symbol>
+    <symbol id="i-warning" viewBox="0 0 24 24"><path d="M10.3 4.1 2.8 17.2A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.8L13.7 4.1a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8.5" ry="3"/><path d="M3.5 5v14c0 1.7 3.8 3 8.5 3s8.5-1.3 8.5-3V5M3.5 12c0 1.7 3.8 3 8.5 3s8.5-1.3 8.5-3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 9.5a11 11 0 0 1 14 0M8 13a6.5 6.5 0 0 1 8 0M10.5 16.5a2.5 2.5 0 0 1 3 0M12 20h.01"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z"/><path d="m19 14 1.1 2.4L22.5 17.5 20 18.6 19 21l-1-2.4-2.5-1.1 2.5-1.1L19 14ZM5 2l.8 2.2L8 5l-2.2.8L5 8l-.8-2.2L2 5l2.2-.8L5 2Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.4 15.6A8.7 8.7 0 0 1 8.4 3.6 8.8 8.8 0 1 0 20.4 15.6Z"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+    <symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="7.3"/><path d="m16.2 16.2 4.3 4.3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"/></symbol>
+    <symbol id="i-paperclip" viewBox="0 0 24 24"><path d="m21.4 11.1-8.9 8.9a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7L9.8 17.1a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5"/><path d="M4 16v4h16v-4"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-9M15 6h6v6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m18 6-12 12M6 6l12 12"/></symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3-9 4 18 3-9h4"/></symbol>
+  </svg>
+
+  <div class="app-root">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark"><svg class="icon"><use href="#i-sparkles"/></svg></div>
+        <div><div class="brand-title">智考通</div><div class="brand-subtitle">SMART ATTENDANCE CONNECT</div></div>
+      </div>
+      <div class="topbar-center">
+        <div class="workspace-label">高校考勤 · 智能工作台</div>
+        <label class="search-box" aria-label="全局搜索">
+          <svg class="icon small"><use href="#i-search"/></svg>
+          <input id="globalSearch" type="search" placeholder="搜索学生、班级、假条编号…" />
+          <span style="font-size:10px;opacity:.6">⌘ K</span>
+        </label>
+      </div>
+      <div class="topbar-actions">
+        <span class="prototype-badge"><span class="dot"></span>交互原型 · 演示数据</span>
+        <div class="segmented" aria-label="设备预览模式">
+          <button type="button" class="active" data-view="pc"><svg class="icon small"><use href="#i-monitor"/></svg>PC</button>
+          <button type="button" data-view="mobile"><svg class="icon small"><use href="#i-smartphone"/></svg>手机</button>
+        </div>
+        <button type="button" class="icon-button" id="themeToggle" aria-label="切换明暗主题" title="切换明暗主题"><svg class="icon" id="themeIcon"><use href="#i-moon"/></svg></button>
+        <button type="button" class="icon-button" id="notificationBtn" aria-label="通知" title="通知"><svg class="icon"><use href="#i-bell"/></svg></button>
+        <div class="avatar" title="辅导员演示账号">辅</div>
+      </div>
+    </header>
+
+    <div class="app-shell" id="pcShell">
+      <aside class="sidebar">
+        <div class="side-head"><span>工作空间</span><span class="campus-chip">演示校区⌄</span></div>
+        <nav class="nav-list" id="desktopNav" aria-label="主导航">
+          <button class="nav-item active" data-module="attendance"><span class="nav-icon"><svg class="icon"><use href="#i-grid"/></svg></span><span class="nav-copy"><span class="nav-label">考勤核销中心</span><span class="nav-caption">Attendance Hub</span></span><span class="nav-count">6</span></button>
+          <button class="nav-item" data-module="calendar"><span class="nav-icon"><svg class="icon"><use href="#i-calendar"/></svg></span><span class="nav-copy"><span class="nav-label">考勤规则与日历</span><span class="nav-caption">Rules & Calendar</span></span></button>
+          <button class="nav-item" data-module="warning"><span class="nav-icon"><svg class="icon"><use href="#i-warning"/></svg></span><span class="nav-copy"><span class="nav-label">学情预警与宿舍</span><span class="nav-caption">Student Insights</span></span><span class="nav-count">3</span></button>
+          <button class="nav-item" data-module="documents"><span class="nav-icon"><svg class="icon"><use href="#i-file"/></svg></span><span class="nav-copy"><span class="nav-label">公文与课件中心</span><span class="nav-caption">Docs & Slides</span></span></button>
+          <button class="nav-item" data-module="supervision"><span class="nav-icon"><svg class="icon"><use href="#i-users"/></svg></span><span class="nav-copy"><span class="nav-label">班委履职督导</span><span class="nav-caption">Class Committee</span></span></button>
+          <button class="nav-item" data-module="knowledge"><span class="nav-icon"><svg class="icon"><use href="#i-database"/></svg></span><span class="nav-copy"><span class="nav-label">本地隐私知识库</span><span class="nav-caption">Local Knowledge</span></span></button>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="sandbox-card normal-mapped-surface fine-grain" data-light-surface>
+          <div class="sandbox-head">
+            <div class="shield-wrap"><svg class="icon large" style="filter:url(#shieldSpecular)"><use href="#i-shield"/></svg></div>
+            <div><div class="sandbox-title">TeleAgent 本地安全沙盒</div><div class="sandbox-sub">LOCAL PRIVACY GUARD</div></div>
+          </div>
+          <div class="secure-line"><svg class="icon"><use href="#i-check"/></svg>零公网上传 · 本地安全处理</div>
+          <div class="sandbox-foot">隐私优先设计。真实部署时需由后端落实本地处理与访问权限。</div>
+        </div>
+      </aside>
+
+      <main class="main-column" id="canvasMainView">
+        <!-- [AGENT_SLOT: CANVAS_MAIN_VIEW] -->
+        <div id="mainViewContent">
+          <div class="welcome-row">
+            <div>
+              <div class="eyebrow"><span class="spark"></span>TELEAGENT WORKSPACE</div>
+              <h1>考勤核销中心</h1>
+              <div class="welcome-copy">早上好，辅导员。今天的考勤与假条核销进度一目了然。</div>
+            </div>
+            <div class="welcome-actions">
+              <button class="btn" id="exportBtn"><svg class="icon small"><use href="#i-download"/></svg>导出台账</button>
+              <button class="btn primary" id="startVerifyBtn"><svg class="icon small"><use href="#i-sparkles"/></svg>开始智能核销</button>
+            </div>
+          </div>
+          <div class="shift-strip">
+            <span class="shift-mark"><svg class="icon small"><use href="#i-clock"/></svg></span>
+            <span><strong>固定班制</strong> · 08:30 上课</span><span class="shift-sep"></span>
+            <span>08:35 前免除异常</span><span class="shift-sep"></span><span>24:00 最晚签退</span>
+            <span class="live-label">规则已载入（演示）</span>
+          </div>
+          <section class="kpi-grid" aria-label="核心考勤指标">
+            <article class="kpi-card normal-mapped-surface" data-light-surface style="--glow:#1A73E8">
+              <div class="kpi-top"><span>今日应考勤</span><span class="kpi-icon"><svg class="icon"><use href="#i-users"/></svg></span></div>
+              <div class="kpi-value">1,286</div><div class="kpi-bottom"><span class="trend"><svg class="icon small"><use href="#i-trend"/></svg>全班覆盖</span><span>· 演示统计</span></div>
+            </article>
+            <article class="kpi-card normal-mapped-surface" data-light-surface style="--glow:#36A66A;--kpi-color:var(--mint-ink);--kpi-soft:var(--mint-soft)">
+              <div class="kpi-top"><span>正常出勤</span><span class="kpi-icon"><svg class="icon"><use href="#i-check"/></svg></span></div>
+              <div class="kpi-value">1,204</div><div class="kpi-bottom"><span class="trend"><svg class="icon small"><use href="#i-trend"/></svg>93.6%</span><span>· 应到比例</span></div>
+            </article>
+            <article class="kpi-card normal-mapped-surface" data-light-surface style="--glow:#FA903E;--kpi-color:var(--amber-ink);--kpi-soft:var(--amber-soft)">
+              <div class="kpi-top"><span>待核销假条</span><span class="kpi-icon"><svg class="icon"><use href="#i-file"/></svg></span></div>
+              <div class="kpi-value" id="pendingKpi">18</div><div class="kpi-bottom"><span class="trend warning">需要处理</span><span>· 待人工确认</span></div>
+            </article>
+            <article class="kpi-card normal-mapped-surface" data-light-surface style="--glow:#D93025;--kpi-color:var(--danger);--kpi-soft:var(--danger-soft)">
+              <div class="kpi-top"><span>异常待复核</span><span class="kpi-icon"><svg class="icon"><use href="#i-warning"/></svg></span></div>
+              <div class="kpi-value">6</div><div class="kpi-bottom"><span class="trend danger">优先处理</span><span>· 不自动定责</span></div>
+            </article>
+          </section>
+
+          <section class="surface section-card" aria-labelledby="tableHeading">
+            <div class="section-header">
+              <div><div class="section-title"><span class="section-head-icon"><svg class="icon"><use href="#i-calendar"/></svg></span><span id="tableHeading">跨表考勤与假条交叉核销台账</span></div><div class="section-subtitle">关联签到记录、请假申请与销假凭证，异常项保留人工复核入口。</div></div>
+              <div class="section-tools"><button class="btn compact" id="tableRefreshBtn"><svg class="icon small"><use href="#i-activity"/></svg>刷新视图</button><button class="icon-button" style="width:32px;height:32px" id="tableMoreBtn" aria-label="更多台账操作"><svg class="icon"><use href="#i-more"/></svg></button></div>
+            </div>
+            <div class="filter-row" id="tableFilters">
+              <button class="filter-chip active" data-filter="all">全部记录 <span id="allCount">06</span></button>
+              <button class="filter-chip" data-filter="success">已销假</button>
+              <button class="filter-chip" data-filter="pending">待核验</button>
+              <button class="filter-chip" data-filter="danger">异常预警</button>
+              <span class="filter-spacer"></span>
+              <button class="btn compact" id="tableSearchToggle"><svg class="icon small"><use href="#i-search"/></svg>筛选学生</button>
+            </div>
+            <div class="table-scroll">
+              <table class="attendance-table">
+                <thead><tr><th>学生 / 学号</th><th>班级</th><th>签到时间</th><th>定位 / Wi-Fi</th><th>假条关联</th><th>核销状态</th><th>操作</th></tr></thead>
+                <tbody id="attendanceTbody">
+                  <tr data-status="success" data-search="林知夏 240301 物流管理2401"><td><div class="student-cell"><span class="student-avatar" style="--avatar-bg:#E3F4E8;--avatar-color:#267347">林</span><div><div>林知夏</div><div class="student-meta">240301018</div></div></div></td><td>物流管理 2401</td><td>08:27:16</td><td>校园 Wi-Fi ✓</td><td>LS-26020</td><td><span class="status-pill status-success">已销假</span></td><td><button class="text-link row-detail" data-name="林知夏">查看详情</button></td></tr>
+                  <tr data-status="pending" data-search="周予安 240302 物流管理2401"><td><div class="student-cell"><span class="student-avatar" style="--avatar-bg:#FFF0DF;--avatar-color:#935112">周</span><div><div>周予安</div><div class="student-meta">240301026</div></div></div></td><td>物流管理 2401</td><td>08:39:42</td><td>Wi-Fi 待确认</td><td>LS-26027</td><td><span class="status-pill status-pending">待核验</span></td><td><button class="text-link row-detail" data-name="周予安">人工复核</button></td></tr>
+                  <tr data-status="danger" data-search="陈一诺 240303 物流管理2401"><td><div class="student-cell"><span class="student-avatar" style="--avatar-bg:#FDE5E4;--avatar-color:#B42318">陈</span><div><div>陈一诺</div><div class="student-meta">240301031</div></div></div></td><td>物流管理 2401</td><td>未签到</td><td>未获取</td><td>无匹配假条</td><td><span class="status-pill status-danger">异常预警</span></td><td><button class="text-link row-detail" data-name="陈一诺">查看原因</button></td></tr>
+                  <tr data-status="success" data-search="赵可心 240304 物流管理2401"><td><div class="student-cell"><span class="student-avatar" style="--avatar-bg:#E9E7FF;--avatar-color:#6353B6">赵</span><div><div>赵可心</div><div class="student-meta">240301042</div></div></div></td><td>物流管理 2401</td><td>08:30:03</td><td>校园 Wi-Fi ✓</td><td>LS-26011</td><td><span class="status-pill status-success">已销假</span></td><td><button class="text-link row-detail" data-name="赵可心">查看详情</button></td></tr>
+                  <tr data-status="pending" data-search="王沐阳 240305 物流管理2401"><td><div class="student-cell"><span class="student-avatar" style="--avatar-bg:#DDF1FF;--avatar-color:#1D64A9">王</span><div><div>王沐阳</div><div class="student-meta">240301055</div></div></div></td><td>物流管理 2401</td><td>08:33:57</td><td>位置待核实</td><td>LS-26029</td><td><span class="status-pill status-pending">待核验</span></td><td><button class="text-link row-detail" data-name="王沐阳">人工复核</button></td></tr>
+                  <tr data-status="success" data-search="许清禾 240306 物流管理2401"><td><div class="student-cell"><span class="student-avatar" style="--avatar-bg:#FCE7F3;--avatar-color:#A83D78">许</span><div><div>许清禾</div><div class="student-meta">240301063</div></div></div></td><td>物流管理 2401</td><td>08:25:40</td><td>校园 Wi-Fi ✓</td><td>—</td><td><span class="status-pill status-success">正常出勤</span></td><td><button class="text-link row-detail" data-name="许清禾">查看详情</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer"><span id="tableResultText">显示 6 条演示记录 · 实际数据待接入</span><div class="pagination"><button class="page-btn" disabled>‹</button><button class="page-btn current">1</button><button class="page-btn" id="fakeNextPage">2</button><button class="page-btn">3</button><button class="page-btn">›</button></div></div>
+          </section>
+
+          <div class="lower-grid">
+            <section class="surface mini-panel">
+              <div class="mini-panel-header"><div class="mini-panel-title"><span class="section-head-icon"><svg class="icon"><use href="#i-warning"/></svg></span>异常分流概览</div><button class="btn compact" data-open-module="warning">查看预警 <svg class="icon small"><use href="#i-chevron-right"/></svg></button></div>
+              <div class="mini-kpi-row"><div class="mini-metric"><strong>03</strong><span>迟到待复核</span></div><div class="mini-metric"><strong>02</strong><span>假条信息不全</span></div><div class="mini-metric"><strong>01</strong><span>缺勤待确认</span></div></div>
+              <div class="mini-note"><svg class="icon"><use href="#i-warning"/></svg><span>风险记录只提示核查线索，不自动认定旷课或处分；最终结论需由有权限的教师确认。</span></div>
+            </section>
+            <section class="surface mini-panel">
+              <div class="mini-panel-header"><div class="mini-panel-title"><span class="section-head-icon" style="color:var(--mint-ink);background:var(--mint-soft)"><svg class="icon"><use href="#i-file"/></svg></span>周报预览</div><span class="status-pill status-success">草稿</span></div>
+              <div class="report-preview">
+                <div class="report-top"><div class="doc-icon"><svg class="icon large"><use href="#i-file"/></svg></div><div><div class="report-name">第 42 周考勤与销假工作周报.docx</div><div class="report-meta">更新于今天 09:16 · 示例预览</div></div></div>
+                <div class="report-lines"><span class="report-line"></span><span class="report-line"></span><span class="report-line"></span></div>
+                <div class="report-bottom"><span class="generated-stamp"><svg class="icon small"><use href="#i-check"/></svg>模板已就绪</span><button class="btn compact" id="reportPreviewBtn">打开预览</button></div>
+              </div>
+            </section>
+          </div>
+          <div class="footer-note">原型说明：指标、学生、台账、耗时及时间戳均为虚构演示内容。当前页面不采集真实定位、不校验真实 Wi-Fi、不访问学校系统，也不会实际生成/导出业务文件。</div>
+        </div>
+      </main>
+
+      <aside class="agent-panel" id="agentPanel">
+        <div class="agent-head"><div class="agent-orb"><svg class="icon large"><use href="#i-sparkles"/></svg></div><div><div class="agent-name">星辰 · TeleAgent</div><div class="agent-caption">本地任务编排 · 运行追踪器</div></div><span class="online-dot" title="原型界面在线"></span></div>
+        <div class="agent-summary"><div class="agent-summary-top"><span class="agent-summary-title">工作流运行概况</span><span class="soft-label" id="runStatus">演示完成</span></div><p id="runSummaryText">最近一次演示流程已走完 5 个步骤。接入后端后，可由真实 Agent 事件驱动此时间轴。</p></div>
+        <div class="tracker-heading"><span>Agent Run Tracker</span><small id="stepCount">5 / 5 步骤</small></div>
+        <div class="tracker" id="agentTracker">
+          <div class="tracker-step done" data-step="0"><div class="step-icon"><svg class="icon small"><use href="#i-check"/></svg></div><div><div class="step-title-row"><span class="step-title">Excel 解析</span><span class="step-time">0.8s</span></div><div class="step-desc">读取列名、学号与签到时间</div><div class="step-bar"><span style="--progress:100%"></span></div></div></div>
+          <div class="tracker-step done" data-step="1"><div class="step-icon"><svg class="icon small"><use href="#i-check"/></svg></div><div><div class="step-title-row"><span class="step-title">宽限期比对</span><span class="step-time">0.4s</span></div><div class="step-desc">按配置规则计算迟到候选项</div><div class="step-bar"><span style="--progress:100%"></span></div></div></div>
+          <div class="tracker-step done" data-step="2"><div class="step-icon"><svg class="icon small"><use href="#i-check"/></svg></div><div><div class="step-title-row"><span class="step-title">多源假条交叉核销</span><span class="step-time">1.2s</span></div><div class="step-desc">匹配申请、销假凭证与签到记录</div><div class="step-bar"><span style="--progress:100%"></span></div></div></div>
+          <div class="tracker-step done" data-step="3"><div class="step-icon"><svg class="icon small"><use href="#i-check"/></svg></div><div><div class="step-title-row"><span class="step-title">异常分流</span><span class="step-time">0.6s</span></div><div class="step-desc">将低置信度记录移交人工确认</div><div class="step-bar"><span style="--progress:100%"></span></div></div></div>
+          <div class="tracker-step done" data-step="4"><div class="step-icon"><svg class="icon small"><use href="#i-check"/></svg></div><div><div class="step-title-row"><span class="step-title">Word 周报归档</span><span class="step-time">0.9s</span></div><div class="step-desc">整理摘要与周报草稿（模拟）</div><div class="step-bar"><span style="--progress:100%"></span></div></div></div>
+        </div>
+        <div class="tracker-bottom"><span>演示累计耗时 <strong id="totalTime">3.9s</strong></span><button class="text-link" id="rerunBtn">重新演示 ↻</button></div>
+        <div class="chat-section">
+          <div class="chat-title"><span>与星辰协作</span><span class="muted">可拖入表格 / 假条</span></div>
+          <div class="quick-prompts"><button class="prompt-chip">一键核销本周考勤</button><button class="prompt-chip">一键生成 Word 周报</button><button class="prompt-chip">生成辅导员述职 PPT</button></div>
+          <div class="message-log" id="messageLog" aria-live="polite"></div>
+          <div class="chat-box" id="chatDropZone">
+            <textarea class="chat-input" id="chatInput" rows="2" placeholder="描述任务，或将文件拖到这里…"></textarea>
+            <div class="attached-file" id="attachedFile"><svg class="icon small"><use href="#i-file"/></svg><span class="file-name" id="attachedName"></span><button type="button" id="removeFileBtn" aria-label="移除文件"><svg class="icon small"><use href="#i-x"/></svg></button></div>
+            <div class="chat-tools"><div class="chat-tool-left"><button type="button" class="chat-tool" id="uploadFileBtn" aria-label="添加文件" title="添加演示文件"><svg class="icon"><use href="#i-paperclip"/></svg></button><button type="button" class="chat-tool" id="chatMoreBtn" aria-label="更多工具" title="更多工具"><svg class="icon"><use href="#i-more"/></svg></button></div><button type="button" class="send-btn" id="sendChatBtn" aria-label="发送"><svg class="icon small"><use href="#i-send"/></svg></button></div>
+            <input id="fileInput" type="file" hidden accept=".xlsx,.xls,.csv,.doc,.docx,.pdf,.png,.jpg,.jpeg" multiple />
+          </div>
+          <div class="privacy-note"><svg class="icon"><use href="#i-shield"/></svg><span>隐私优先设计 · 接入模型前请确认实际数据流向。</span></div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="mobile-stage" id="mobileStage" aria-label="手机端预览">
+      <div class="phone-frame">
+        <div class="phone-screen normal-mapped-surface" data-light-surface>
+          <div class="phone-status"><span id="phoneClock">09:41</span><span class="phone-status-icons"><svg class="icon small"><use href="#i-wifi"/></svg><svg class="icon small"><use href="#i-activity"/></svg><span>92%</span></span></div>
+          <div class="phone-top"><div class="phone-brand"><div class="brand-mark"><svg class="icon"><use href="#i-sparkles"/></svg></div><div><div class="brand-title">智考通</div><div class="brand-subtitle">SMART ATTENDANCE</div></div></div><button type="button" class="icon-button" style="width:34px;height:34px" id="mobileBell" aria-label="手机通知"><svg class="icon small"><use href="#i-bell"/></svg></button></div>
+          <div class="role-switch" id="roleSwitch"><button class="active" data-role="学生">学生</button><button data-role="考勤班委">考勤班委</button><button data-role="辅导员">辅导员</button></div>
+          <div class="mobile-content">
+            <div class="mobile-greeting"><div><h2 id="mobileGreetingTitle">早上好，同学</h2><p id="mobileGreetingSub">今天也要准时到课哦</p></div><span class="date-chip">周二 · 10.20</span></div>
+            <section class="checkin-card normal-mapped-surface" data-light-surface>
+              <div class="checkin-label">今日考勤 · 固定班制</div><div class="checkin-time" id="mobileClock">09:41</div><div class="checkin-date">2026 年 10 月 20 日 · 星期二</div>
+              <div class="checkin-dial normal-mapped-surface" data-light-surface><button type="button" id="checkinButton"><svg class="icon large"><use href="#i-map-pin"/></svg><span>极速打卡</span><small>定位 / Wi-Fi 双校验</small></button></div>
+              <div class="mobile-location"><svg class="icon"><use href="#i-shield"/></svg><span id="locationState">演示定位 · 未连接真实位置</span></div>
+            </section>
+            <div class="mobile-info-row"><div class="mobile-info-card"><div class="mobile-info-top"><svg class="icon"><use href="#i-calendar"/></svg>今日课程</div><strong>08:30 · 第 1 节</strong><small>物流管理专业课</small></div><div class="mobile-info-card"><div class="mobile-info-top"><svg class="icon"><use href="#i-file"/></svg>我的假条</div><strong>1 条待处理</strong><small>点击查看申请状态</small></div></div>
+            <button class="leave-upload" id="mobileLeaveUpload" type="button"><span class="upload-icon"><svg class="icon large"><use href="#i-upload"/></svg></span><span><strong>拍照上传假条 / 销假凭证</strong><small>支持图片或文件 · OCR 能力待接入</small></span><svg class="icon small" style="margin-left:auto"><use href="#i-chevron-right"/></svg></button>
+            <section class="swipe-card" id="swipeCard"><div class="swipe-top"><div class="swipe-title"><span class="section-head-icon" style="width:29px;height:29px;background:var(--amber-soft);color:var(--amber-ink)"><svg class="icon small"><use href="#i-clock"/></svg></span>补卡申请待确认</div><span class="swipe-tag">今日 08:30</span></div><p>检测到一条补卡请求。左右滑动卡片或点击操作，可体验原型中的审批交互。</p><div class="swipe-actions"><button class="btn compact" id="laterMakeupBtn">稍后处理</button><button class="btn compact primary" id="approveMakeupBtn">查看并确认</button></div></section>
+            <p class="mobile-safety-note">当前为交互原型 · 打卡、定位、审批均不会写入真实系统</p>
+          </div>
+          <nav class="phone-bottom-nav" aria-label="手机底部导航">
+            <button class="phone-nav-item active" data-mobile-tab="首页"><span class="nav-ico-wrap"><svg class="icon"><use href="#i-grid"/></svg></span><span>首页</span></button>
+            <button class="phone-nav-item" data-mobile-tab="考勤"><span class="nav-ico-wrap"><svg class="icon"><use href="#i-calendar"/></svg></span><span>考勤</span></button>
+            <button class="phone-nav-item phone-ai-button" data-mobile-tab="星辰 AI"><span class="ai-ball"><svg class="icon large"><use href="#i-sparkles"/></svg></span><span>星辰 AI</span></button>
+            <button class="phone-nav-item" data-mobile-tab="我的"><span class="nav-ico-wrap"><svg class="icon"><use href="#i-users"/></svg></span><span>我的</span></button>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- [AGENT_SLOT: MODAL_CONTAINER] -->
+    <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal">
+        <div class="modal-header"><div><h3 id="modalTitle">操作确认</h3><p id="modalLead">这是可替换的弹窗容器，后续智能体可在此挂载真实业务表单。</p></div><button type="button" class="modal-close" id="modalClose" aria-label="关闭弹窗"><svg class="icon small"><use href="#i-x"/></svg></button></div>
+        <div class="modal-body" id="modalBody">当前为前端演示交互，不会更改考勤记录或连接任何学校系统。</div>
+        <div class="modal-actions"><button type="button" class="btn" id="modalCancel">取消</button><button type="button" class="btn primary" id="modalConfirm">知道了</button></div>
+      </div>
+    </div>
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+  </div>
+
+  <script>
+    (() => {
+      'use strict';
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+      const icon = (name, cls = 'icon small') => `<svg class="${cls}" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+      const initialAttendanceData = [
+        { id: '240301018', name: '林知夏', className: '物流管理 2401', time: '08:27:16', status: 'success', leave: 'LS-26020' },
+        { id: '240301026', name: '周予安', className: '物流管理 2401', time: '08:39:42', status: 'pending', leave: 'LS-26027' },
+        { id: '240301031', name: '陈一诺', className: '物流管理 2401', time: '未签到', status: 'danger', leave: '无匹配假条' },
+        { id: '240301042', name: '赵可心', className: '物流管理 2401', time: '08:30:03', status: 'success', leave: 'LS-26011' },
+        { id: '240301055', name: '王沐阳', className: '物流管理 2401', time: '08:33:57', status: 'pending', leave: 'LS-26029' },
+        { id: '240301063', name: '许清禾', className: '物流管理 2401', time: '08:25:40', status: 'success', leave: '—' }
+      ];
+      const initialSteps = [
+        { title: 'Excel 解析', description: '读取列名、学号与签到时间', duration: '0.8s', status: 'done', progress: 100 },
+        { title: '宽限期比对', description: '按配置规则计算迟到候选项', duration: '0.4s', status: 'done', progress: 100 },
+        { title: '多源假条交叉核销', description: '匹配申请、销假凭证与签到记录', duration: '1.2s', status: 'done', progress: 100 },
+        { title: '异常分流', description: '将低置信度记录移交人工确认', duration: '0.6s', status: 'done', progress: 100 },
+        { title: 'Word 周报归档', description: '整理摘要与周报草稿（模拟）', duration: '0.9s', status: 'done', progress: 100 }
+      ];
+      const moduleMeta = {
+        attendance: { title: '考勤核销中心', caption: '跨表考勤与假条交叉核销', icon: 'grid', description: '汇总签到、请假、销假和异常待复核记录。' },
+        calendar: { title: '考勤规则与日历', caption: '考勤时间规则与校历配置', icon: 'calendar', description: '为后续模块配置上课时间、宽限期、节假日、课程表和签退规则。' },
+        warning: { title: '学情预警与宿舍', caption: '缺勤趋势与宿舍网格协同', icon: 'warning', description: '将高频缺勤、迟到候选项和宿舍网格信息汇总为分级待办。预警是核查线索，不自动作出处分认定。' },
+        documents: { title: '公文与课件中心', caption: '周报、述职材料与课件预览', icon: 'file', description: '为 Word 周报、辅导员述职 PPT 与课件文件预留统一入口。' },
+        supervision: { title: '班委履职督导', caption: '班委任务与完成记录', icon: 'users', description: '按职责维护考勤班委、寝室长等任务清单和留痕记录。' },
+        knowledge: { title: '本地隐私知识库', caption: '规章、流程与本地资料索引', icon: 'database', description: '预留校规、请假制度、操作手册等本地知识检索空间。实际本地化能力需由后端落实。' }
+      };
+      const modules = new Map(Object.entries(moduleMeta));
+      const state = {
+        theme: document.documentElement.dataset.theme || 'light',
+        viewMode: 'pc',
+        attendanceData: initialAttendanceData.map(x => ({ ...x })),
+        agentTimelineSteps: initialSteps.map(x => ({ ...x })),
+        activeModule: 'attendance',
+        activeFilter: 'all',
+        searchTerm: '',
+        registerModule(module) {
+          if (!module || typeof module.id !== 'string' || !module.id.trim()) throw new Error('registerModule(module) 需要提供非空字符串 id。');
+          if (!module.label && !module.title) throw new Error('注册模块时请提供 label 或 title。');
+          const id = module.id.trim();
+          const meta = { title: module.title || module.label, caption: module.caption || '由扩展智能体注册', icon: module.icon || 'grid', description: module.description || '该模块已注册，等待业务组件注入。', render: module.render || null };
+          modules.set(id, meta);
+          const nav = $('#desktopNav');
+          if (nav && !$(`[data-module="${CSS.escape(id)}"]`, nav)) {
+            const button = document.createElement('button');
+            button.className = 'nav-item';
+            button.dataset.module = id;
+            button.innerHTML = `<span class="nav-icon">${icon(meta.icon, 'icon')}</span><span class="nav-copy"><span class="nav-label"></span><span class="nav-caption"></span></span>`;
+            $('.nav-label', button).textContent = meta.title;
+            $('.nav-caption', button).textContent = meta.caption;
+            nav.appendChild(button);
+          }
+          if (state.activeModule === id) renderModule(id);
+          return { ok: true, id };
+        }
+      };
+      // Public handoff contract for subsequent agents. Keep these names stable.
+      window.SmartAttendanceApp = state;
+      window.SmartAttendanceApp.showToast = (message) => showToast(message);
+      window.SmartAttendanceApp.setTheme = (theme) => setTheme(theme);
+      window.SmartAttendanceApp.setViewMode = (mode) => setViewMode(mode);
+      window.SmartAttendanceApp.openModal = (options = {}) => openModal(options);
+      window.SmartAttendanceApp.setAgentSteps = (steps) => setAgentSteps(steps);
+
+      function showToast(message) {
+        const region = $('#toastRegion');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `${icon('check')}<span></span>`;
+        $('span', toast).textContent = String(message);
+        region.appendChild(toast);
+        window.setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(7px)'; window.setTimeout(() => toast.remove(), 220); }, 2600);
+      }
+      function setTheme(theme) {
+        if (!['light', 'dark'].includes(theme)) return;
+        state.theme = theme;
+        document.documentElement.dataset.theme = theme;
+        const use = $('#themeIcon use');
+        if (use) use.setAttribute('href', theme === 'dark' ? '#i-sun' : '#i-moon');
+        $('#themeToggle').title = theme === 'dark' ? '切换到亮色主题' : '切换到暗色主题';
+      }
+      function setViewMode(mode) {
+        if (!['pc', 'mobile'].includes(mode)) return;
+        state.viewMode = mode;
+        $('#pcShell').style.display = mode === 'pc' ? '' : 'none';
+        $('#mobileStage').style.display = mode === 'mobile' ? 'flex' : 'none';
+        $$('[data-view]').forEach(btn => btn.classList.toggle('active', btn.dataset.view === mode));
+      }
+      let currentModalConfirm = null;
+      function openModal({ title = '操作确认', lead = '这是可替换的弹窗容器，后续智能体可在此挂载真实业务表单。', body = '当前为前端演示交互，不会更改考勤记录或连接任何学校系统。', confirmText = '知道了', onConfirm = null } = {}) {
+        $('#modalTitle').textContent = title;
+        $('#modalLead').textContent = lead;
+        $('#modalBody').textContent = body;
+        $('#modalConfirm').textContent = confirmText;
+        $('#modalBackdrop').classList.add('open');
+        currentModalConfirm = typeof onConfirm === 'function' ? onConfirm : null;
+      }
+      function closeModal() { $('#modalBackdrop').classList.remove('open'); currentModalConfirm = null; }
+
+      const mainContent = $('#mainViewContent');
+      const defaultDashboardMarkup = mainContent.innerHTML;
+      function renderModule(id) {
+        state.activeModule = id;
+        $$('.nav-item').forEach(btn => btn.classList.toggle('active', btn.dataset.module === id));
+        if (id === 'attendance') {
+          mainContent.innerHTML = defaultDashboardMarkup;
+          bindMainDashboardActions();
+          applyTableFilter();
+          return;
+        }
+        const meta = modules.get(id) || { title: id, caption: '扩展模块', icon: 'grid', description: '该模块已注册，等待业务组件注入。' };
+        if (typeof meta.render === 'function') {
+          mainContent.innerHTML = '';
+          const output = meta.render({ app: window.SmartAttendanceApp, root: mainContent });
+          if (output instanceof Node) mainContent.appendChild(output);
+          else if (typeof output === 'string') mainContent.innerHTML = output;
+        } else {
+          mainContent.innerHTML = `<section class="surface section-card placeholder-page"><div class="placeholder-icon">${icon(meta.icon, 'icon large')}</div><div class="eyebrow"><span class="spark"></span>MODULE SLOT</div><h2></h2><div class="welcome-copy"></div><p></p><div class="placeholder-grid"><div class="placeholder-tile"><strong>模块视图插槽已预留</strong><span>后续智能体可以在此模块注入表格、图表、表单或交互流程。</span></div><div class="placeholder-tile"><strong>共用全局设计令牌</strong><span>复用 --surface-card、--on-surface、--google-blue 等 CSS 变量，自动跟随明暗主题。</span></div><div class="placeholder-tile"><strong>联动执行追踪器</strong><span>通过 SmartAttendanceApp.agentTimelineSteps 或 setAgentSteps() 更新右侧执行时间轴。</span></div><div class="placeholder-tile"><strong>业务接入状态</strong><span>当前为前端种子模板；接口、权限、真实数据与持久化仍需后续开发。</span></div></div><div class="slot-note">推荐接入点：<code>[AGENT_SLOT: CANVAS_MAIN_VIEW]</code>。注册模块示例见随附 README。</div><div style="margin-top:18px"><button class="btn primary" id="backToAttendance">返回考勤核销中心</button></div></section>`;
+          $('.placeholder-page h2', mainContent).textContent = meta.title;
+          $('.placeholder-page .welcome-copy', mainContent).textContent = meta.caption;
+          $('.placeholder-page p', mainContent).textContent = meta.description;
+          $('#backToAttendance', mainContent).addEventListener('click', () => renderModule('attendance'));
+        }
+      }
+
+      function applyTableFilter() {
+        const table = $('#attendanceTbody');
+        if (!table) return;
+        const rows = $$('tr', table);
+        let shown = 0;
+        rows.forEach(row => {
+          const matchesFilter = state.activeFilter === 'all' || row.dataset.status === state.activeFilter;
+          const query = state.searchTerm.trim().toLowerCase();
+          const haystack = `${row.dataset.search || ''} ${row.textContent}`.toLowerCase();
+          const matchesSearch = !query || haystack.includes(query);
+          row.style.display = matchesFilter && matchesSearch ? '' : 'none';
+          if (matchesFilter && matchesSearch) shown++;
+        });
+        const text = $('#tableResultText');
+        if (text) text.textContent = `显示 ${shown} 条演示记录 · 实际数据待接入`;
+        const allCount = $('#allCount');
+        if (allCount) allCount.textContent = String(rows.length).padStart(2, '0');
+      }
+      function bindMainDashboardActions() {
+        $('#exportBtn')?.addEventListener('click', () => showToast('导出功能为演示状态；接入后端后再生成真实台账文件。'));
+        $('#startVerifyBtn')?.addEventListener('click', () => runDemoFlow('一键核销本周考勤'));
+        $('#tableRefreshBtn')?.addEventListener('click', () => { applyTableFilter(); showToast('台账视图已刷新（仅刷新演示界面）。'); });
+        $('#tableMoreBtn')?.addEventListener('click', () => openModal({ title: '台账操作', body: '可在此扩展批量复核、列设置、导入和导出等菜单。当前原型不执行真实数据操作。', confirmText: '关闭' }));
+        $('#tableSearchToggle')?.addEventListener('click', () => {
+          const box = $('#globalSearch');
+          box?.focus();
+          if (box && !box.value) box.placeholder = '输入学生姓名或学号过滤表格…';
+          showToast('已聚焦顶部搜索框，可按姓名或学号过滤当前演示记录。');
+        });
+        $('#reportPreviewBtn')?.addEventListener('click', () => openModal({ title: '周报预览 · 示例草稿', lead: '该窗口是报告预览插槽的占位示例。', body: `一、本周考勤概况：此处由后续模块自动汇总。
+二、请假与销假情况：此处展示来源记录及匹配依据。
+三、待复核事项：保留责任人、复核结论和操作留痕。
+
+当前不会创建真实 DOCX 文件。`, confirmText: '返回工作台' }));
+        $('#fakeNextPage')?.addEventListener('click', () => showToast('分页数据尚未接入，本页仅展示 6 条演示记录。'));
+        $$('[data-open-module]').forEach(btn => btn.addEventListener('click', () => renderModule(btn.dataset.openModule)));
+        $$('#tableFilters [data-filter]').forEach(btn => btn.addEventListener('click', () => {
+          state.activeFilter = btn.dataset.filter;
+          $$('#tableFilters [data-filter]').forEach(chip => chip.classList.toggle('active', chip === btn));
+          applyTableFilter();
+        }));
+        $$('.row-detail').forEach(btn => btn.addEventListener('click', () => openModal({ title: `学生记录 · ${btn.dataset.name}`, lead: '记录详情占位视图 · 演示信息', body: `${btn.dataset.name} 的来源记录、假条匹配依据、定位/Wi-Fi 校验结果和复核历史将在业务模块接入后展示。
+
+请勿将原型中的虚构内容用于真实考勤判断。`, confirmText: '关闭' })));
+      }
+      function appendMessage(text, system = false) {
+        const log = $('#messageLog');
+        log.classList.add('show');
+        const msg = document.createElement('div');
+        msg.className = `chat-message${system ? ' system' : ''}`;
+        msg.textContent = text;
+        log.appendChild(msg);
+        log.scrollTop = log.scrollHeight;
+      }
+      function runDemoFlow(task = '一键核销本周考勤') {
+        appendMessage(task, false);
+        appendMessage('收到任务。以下为界面流程模拟；当前没有调用真实 TeleAgent、文件解析或学校系统。', true);
+        setAgentSteps(initialSteps.map((s, i) => ({ ...s, status: 'waiting', progress: 0, duration: '—' })));
+        $('#runStatus').textContent = '模拟运行中';
+        $('#runSummaryText').textContent = '正在模拟展示 5 个技能节点的调用过程。真实接入后应以 Agent 的运行事件更新该面板。';
+        let i = 0;
+        const sequence = () => {
+          const steps = state.agentTimelineSteps.map(s => ({ ...s }));
+          if (i > 0 && i - 1 < steps.length) { steps[i - 1].status = 'done'; steps[i - 1].progress = 100; steps[i - 1].duration = ['0.8s','0.4s','1.2s','0.6s','0.9s'][i - 1]; }
+          if (i < steps.length) { steps[i].status = 'running'; steps[i].progress = 62; steps[i].duration = '运行中'; }
+          setAgentSteps(steps);
+          if (i < steps.length) { i++; window.setTimeout(sequence, 520); }
+          else {
+            $('#runStatus').textContent = '模拟完成';
+            $('#runSummaryText').textContent = '演示流程已完成 5 个步骤。真实任务结果、错误和耗时应由后端事件回传。';
+            $('#totalTime').textContent = '3.9s';
+            appendMessage('演示流程结束。异常记录仍需人工复核；没有实际修改台账。', true);
+            showToast('演示工作流已走完 5 步，未执行真实业务操作。');
+          }
+        };
+        window.setTimeout(sequence, 300);
+      }
+      function setAgentSteps(steps) {
+        if (!Array.isArray(steps)) return;
+        state.agentTimelineSteps = steps.map(step => ({
+          title: String(step.title || '未命名步骤'), description: String(step.description || ''), duration: String(step.duration ?? '—'),
+          status: ['done','running','waiting'].includes(step.status) ? step.status : 'waiting', progress: Math.max(0, Math.min(100, Number(step.progress ?? (step.status === 'done' ? 100 : 0))))
+        }));
+        const tracker = $('#agentTracker');
+        if (!tracker) return;
+        tracker.innerHTML = '';
+        state.agentTimelineSteps.forEach((step, index) => {
+          const div = document.createElement('div');
+          div.className = `tracker-step ${step.status}`;
+          div.dataset.step = String(index);
+          const iconName = step.status === 'done' ? 'check' : step.status === 'running' ? 'activity' : 'clock';
+          div.innerHTML = `<div class="step-icon">${icon(iconName)}</div><div><div class="step-title-row"><span class="step-title"></span><span class="step-time"></span></div><div class="step-desc"></div><div class="step-bar"><span></span></div></div>`;
+          $('.step-title', div).textContent = step.title;
+          $('.step-time', div).textContent = step.duration;
+          $('.step-desc', div).textContent = step.description;
+          $('.step-bar span', div).style.setProperty('--progress', `${step.progress}%`);
+          tracker.appendChild(div);
+        });
+        const done = state.agentTimelineSteps.filter(s => s.status === 'done').length;
+        $('#stepCount').textContent = `${done} / ${state.agentTimelineSteps.length} 步骤`;
+      }
+      function updateClock() {
+        const now = new Date();
+        const time = new Intl.DateTimeFormat('zh-CN', { hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+        const mobileClock = $('#mobileClock');
+        const phoneClock = $('#phoneClock');
+        if (mobileClock) mobileClock.textContent = time;
+        if (phoneClock) phoneClock.textContent = time;
+      }
+
+      // Theme and view controls.
+      $('#themeToggle').addEventListener('click', () => setTheme(state.theme === 'light' ? 'dark' : 'light'));
+      $$('[data-view]').forEach(btn => btn.addEventListener('click', () => setViewMode(btn.dataset.view)));
+      $('#notificationBtn').addEventListener('click', () => showToast('目前没有新通知（演示状态）。'));
+      $('#mobileBell').addEventListener('click', () => showToast('目前没有新通知（演示状态）。'));
+      $('#desktopNav').addEventListener('click', event => {
+        const btn = event.target.closest('[data-module]');
+        if (btn) renderModule(btn.dataset.module);
+      });
+      $('#globalSearch').addEventListener('input', event => { state.searchTerm = event.target.value; if (state.activeModule === 'attendance') applyTableFilter(); });
+      document.addEventListener('keydown', event => {
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); $('#globalSearch').focus(); }
+        if (event.key === 'Escape') closeModal();
+      });
+      $('#modalClose').addEventListener('click', closeModal);
+      $('#modalCancel').addEventListener('click', closeModal);
+      $('#modalConfirm').addEventListener('click', () => { const callback = currentModalConfirm; closeModal(); if (callback) callback(); });
+      $('#modalBackdrop').addEventListener('click', event => { if (event.target === $('#modalBackdrop')) closeModal(); });
+      $('#rerunBtn').addEventListener('click', () => runDemoFlow('重新运行考勤核销演示'));
+
+      // Chat and simulated file attachment / dropzone.
+      const fileInput = $('#fileInput');
+      function setAttachedFiles(files) {
+        const list = Array.from(files || []);
+        if (!list.length) return;
+        $('#attachedName').textContent = list.length === 1 ? list[0].name : `${list[0].name} 等 ${list.length} 个文件`;
+        $('#attachedFile').classList.add('show');
+        $('#attachedFile').title = '仅显示文件名；当前未上传或解析文件内容。';
+        showToast('已添加到原型输入框；文件不会上传或被解析。');
+      }
+      $('#uploadFileBtn').addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', event => setAttachedFiles(event.target.files));
+      $('#removeFileBtn').addEventListener('click', () => { $('#attachedFile').classList.remove('show'); fileInput.value = ''; });
+      $('#chatMoreBtn').addEventListener('click', () => openModal({ title: '协作工具', body: '后续可在这里扩展文件解析、任务模板、运行记录和模型选择。当前原型不连接任何外部服务。', confirmText: '明白' }));
+      function sendChat() {
+        const input = $('#chatInput');
+        const text = input.value.trim();
+        const hasFile = $('#attachedFile').classList.contains('show');
+        if (!text && !hasFile) { showToast('先输入一个任务，或添加演示文件。'); input.focus(); return; }
+        const task = text || '请分析我添加的文件';
+        input.value = '';
+        if (hasFile) appendMessage(`附带文件：${$('#attachedName').textContent}`, false);
+        runDemoFlow(task);
+      }
+      $('#sendChatBtn').addEventListener('click', sendChat);
+      $('#chatInput').addEventListener('keydown', event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendChat(); } });
+      $$('.prompt-chip').forEach(btn => btn.addEventListener('click', () => runDemoFlow(btn.textContent)));
+      const drop = $('#chatDropZone');
+      ['dragenter','dragover'].forEach(name => drop.addEventListener(name, event => { event.preventDefault(); drop.classList.add('dragging'); }));
+      ['dragleave','drop'].forEach(name => drop.addEventListener(name, event => { event.preventDefault(); drop.classList.remove('dragging'); }));
+      drop.addEventListener('drop', event => setAttachedFiles(event.dataTransfer.files));
+
+      // Mobile prototype interactions.
+      $$('#roleSwitch button').forEach(btn => btn.addEventListener('click', () => {
+        $$('#roleSwitch button').forEach(x => x.classList.toggle('active', x === btn));
+        const role = btn.dataset.role;
+        $('#mobileGreetingTitle').textContent = role === '学生' ? '早上好，同学' : role === '考勤班委' ? '早上好，班委' : '早上好，辅导员';
+        $('#mobileGreetingSub').textContent = role === '学生' ? '今天也要准时到课哦' : role === '考勤班委' ? '今天的班级考勤等你核对' : '今天的考勤与异常待办已整理';
+        showToast(`已切换为「${role}」角色预览；权限尚未接入。`);
+      }));
+      $('#checkinButton').addEventListener('click', () => openModal({ title: '极速打卡 · 原型演示', lead: '真实上线前，需要接入定位权限、Wi-Fi 校验与服务端防重放校验。', body: `本次点击不会读取 GPS、不会检查真实校园 Wi-Fi，也不会写入签到记录。
+
+设计流程：获取授权 → 校验时空与网络条件 → 生成待确认记录 → 服务端写入 → 返回回执。`, confirmText: '我知道了' }));
+      $('#mobileLeaveUpload').addEventListener('click', () => openModal({ title: '上传假条 / 销假凭证', lead: '图片选择与 OCR 解析尚未接入。', body: '后续接入时应明确文件保存位置、授权范围、保留期限和人工校核入口。当前只是移动端拍照上传区域的交互样式。', confirmText: '关闭' }));
+      $('#approveMakeupBtn').addEventListener('click', () => openModal({ title: '补卡请求 · 待人工确认', lead: '模拟审批卡片', body: '学生：演示账号\n申请时间：今天 08:30\n建议动作：先查看原因与佐证材料，再由具备权限的老师决定是否通过。\n\n本原型不会记录审批结果。', confirmText: '标记为已查看', onConfirm: () => { $('#swipeCard').classList.add('swiped'); showToast('已在原型中标记为“已查看”，不会写入真实系统。'); } }));
+      $('#laterMakeupBtn').addEventListener('click', () => { $('#swipeCard').classList.add('swiped'); showToast('已在原型中暂缓此卡片。'); });
+      $$('.phone-nav-item').forEach(btn => btn.addEventListener('click', () => {
+        $$('.phone-nav-item').forEach(x => x.classList.toggle('active', x === btn));
+        const tab = btn.dataset.mobileTab;
+        if (tab === '星辰 AI') { setViewMode('pc'); showToast('已返回 PC 工作台，可在右侧与星辰协作。'); }
+        else showToast(`「${tab}」为导航演示，具体页面可由后续智能体接入。`);
+      }));
+
+      // Pointer-following highlight approximates a restrained normal-map/specular effect without external assets.
+      $$('[data-light-surface]').forEach(surface => {
+        surface.addEventListener('pointermove', event => {
+          const rect = surface.getBoundingClientRect();
+          const x = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+          const y = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+          surface.style.setProperty('--mx', `${x}%`);
+          surface.style.setProperty('--my', `${y}%`);
+          const light = $('#dynamicPointLight');
+          if (light && surface.classList.contains('sandbox-card')) {
+            light.setAttribute('x', String(Math.round((x / 100) * 160)));
+            light.setAttribute('y', String(Math.round((y / 100) * 80)));
+          }
+        });
+        surface.addEventListener('pointerleave', () => { surface.style.setProperty('--mx', '52%'); surface.style.setProperty('--my', '20%'); });
+      });
+
+      // Initial render and public state synchronization.
+      bindMainDashboardActions();
+      setTheme('light');
+      setViewMode('pc');
+      setAgentSteps(initialSteps);
+      updateClock();
+      window.setInterval(updateClock, 30000);
+    })();
+  </script>
+</body>
+</html>

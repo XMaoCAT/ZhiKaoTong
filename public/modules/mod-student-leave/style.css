@@ -1,0 +1,97 @@
+/* mod-student-leave：请假管理私有样式
+   向导/弹窗/滚轮选择器/flow-*骨架/leave-pill 均为宿主全局组件样式（core/css/components.css），此处严禁重复定义 */
+
+/* 记录列表（学生视图） */
+.mod-student-leave .leave-list { display: flex; flex-direction: column; gap: 10px; padding: 0 20px 16px; }
+.mod-student-leave .leave-item { border: 1px solid var(--outline); border-radius: 16px; padding: 14px 16px; background: var(--surface-card); display: flex; flex-direction: column; gap: 9px; }
+.mod-student-leave .leave-top { display: flex; align-items: center; gap: 10px; }
+.mod-student-leave .leave-no { font-weight: 780; font-size: 13px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.mod-student-leave .leave-type { font-size: 11px; font-weight: 700; color: var(--google-blue); background: var(--google-blue-soft); border-radius: var(--radius-pill); padding: 3px 9px; }
+.mod-student-leave .leave-time { margin-left: auto; color: var(--on-surface-3); font-size: 10px; font-variant-numeric: tabular-nums; }
+.mod-student-leave .leave-range { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.mod-student-leave .leave-range .icon { width: 14px; height: 14px; color: var(--on-surface-3); }
+.mod-student-leave .leave-reason { color: var(--on-surface-2); font-size: 12px; line-height: 1.6; }
+.mod-student-leave .leave-reason i { color: var(--on-surface-3); font-style: normal; }
+.mod-student-leave .leave-imgs { display: flex; gap: 8px; flex-wrap: wrap; }
+.mod-student-leave .leave-imgs img { width: 62px; height: 62px; object-fit: cover; border-radius: 10px; border: 1px solid var(--outline); }
+.mod-student-leave .leave-reply { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--danger); background: var(--danger-soft); border-radius: 11px; padding: 9px 12px; line-height: 1.55; }
+.mod-student-leave .leave-reply.muted { color: var(--on-surface-3); background: var(--surface-low); }
+.mod-student-leave .leave-reply.need { color: #8A5B00; background: var(--amber-soft); }
+.mod-student-leave .leave-reply.done { color: #1D7A58; background: #E1F2E9; }
+.mod-student-leave .leave-reply .icon { width: 14px; height: 14px; flex: 0 0 auto; }
+.mod-student-leave .leave-ops { display: flex; gap: 8px; justify-content: flex-end; }
+.mod-student-leave .leave-empty { text-align: center; padding: 42px 20px; color: var(--on-surface-3); }
+.mod-student-leave .leave-empty strong { display: block; color: var(--on-surface-2); font-size: 12px; margin-bottom: 5px; }
+.mod-student-leave .leave-empty span { font-size: 10px; }
+.mod-student-leave .cell-sub { color: var(--on-surface-3); font-size: 10px; margin-top: 4px; }
+
+/* 教师视图：我教的班级（可展开班级卡 + 学生名册/请假记录） */
+.mod-student-leave .tc-wrap { display: flex; flex-direction: column; gap: 9px; padding: 0 20px 16px; }
+.mod-student-leave .tc-card { border: 1px solid var(--outline); border-radius: 15px; background: var(--surface-card); overflow: hidden; }
+.mod-student-leave .tc-card.open { border-color: color-mix(in srgb, var(--google-blue) 40%, var(--outline)); }
+.mod-student-leave .tc-head { display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: transparent; padding: 13px 15px; cursor: pointer; text-align: left; font-size: 12px; }
+.mod-student-leave .tc-head:hover { background: var(--surface-low); }
+.mod-student-leave .tc-head strong { font-size: 13.5px; font-weight: 760; }
+.mod-student-leave .tc-head em { font-style: normal; font-size: 13.5px; font-weight: 800; color: var(--on-surface); font-variant-numeric: tabular-nums; }
+.mod-student-leave .tc-head em b { color: var(--google-blue); font-weight: 800; }
+.mod-student-leave .tc-card.open .tc-head .icon { transform: rotate(180deg); }
+.mod-student-leave .tc-body { border-top: 1px solid var(--outline); padding: 6px 15px 13px; display: flex; flex-direction: column; gap: 8px; }
+.mod-student-leave .tc-body[hidden] { display: none; }
+.mod-student-leave .tc-stu { border: 1px solid var(--outline); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; }
+.mod-student-leave .tc-stu-top { display: flex; align-items: center; gap: 9px; }
+.mod-student-leave .tc-stu-top strong { font-size: 12.5px; font-weight: 740; }
+.mod-student-leave .tc-stu-top code { font-size: 11px; color: var(--google-blue); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.mod-student-leave .tc-leaves { display: flex; flex-direction: column; gap: 5px; }
+.mod-student-leave .tc-leave { display: flex; align-items: center; gap: 9px; font-size: 11px; color: var(--on-surface-2); }
+.mod-student-leave .tc-leave span { font-variant-numeric: tabular-nums; font-weight: 650; }
+.mod-student-leave .tc-leave small { color: var(--on-surface-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mod-student-leave .tc-more { color: var(--on-surface-3); font-size: 10px; }
+.mod-student-leave .tc-none { color: var(--on-surface-3); font-size: 11px; }
+.mod-student-leave .tc-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 44px 0; color: var(--on-surface-3); font-size: 10px; border: 1px dashed var(--outline); border-radius: 15px; }
+.mod-student-leave .tc-empty strong { font-size: 12px; color: var(--on-surface-2); }
+
+/* 教师视图：今日请假 / 历史请假 双板块（分页夹） */
+.mod-student-leave .tl-tabs { display: flex; gap: 7px; margin: 0 20px 14px; }.mod-student-leave .tl-tabs button { border: 1px solid var(--outline); background: var(--surface-card); border-radius: var(--radius-pill); padding: 8px 20px; font-size: 12.5px; font-weight: 740; color: var(--on-surface-2); cursor: pointer; }
+.mod-student-leave .tl-tabs button:hover { border-color: color-mix(in srgb, var(--google-blue) 45%, var(--outline)); }
+.mod-student-leave .tl-tabs button.on { color: var(--google-blue); border-color: var(--google-blue); background: var(--google-blue-soft); }
+.mod-student-leave .tl-pane { margin: 0 20px 16px; display: flex; flex-direction: column; gap: 9px; }
+
+/* 汇总视图筛选行（C2 2026-10-29：学生搜索 + 时段范围，与请假区间相交命中） */
+.mod-student-leave .lv-filter-row { display: flex; align-items: center; gap: 10px; margin: 0 20px 14px; flex-wrap: wrap; }
+.mod-student-leave .lv-filter-search { max-width: 200px; }
+.mod-student-leave .lv-filter-date { max-width: 150px; }
+.mod-student-leave .lv-filter-sep { font-size: 11px; color: var(--on-surface-3); }
+.mod-student-leave .tl-pane[hidden] { display: none; }
+.mod-student-leave .tl-stu-row { border: 1px solid var(--outline); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; }
+.mod-student-leave .tl-stu-top { display: flex; align-items: center; gap: 9px; }
+.mod-student-leave .tl-stu-top strong { font-size: 12.5px; font-weight: 740; }
+.mod-student-leave .tl-stu-top code { font-size: 11px; color: var(--google-blue); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.mod-student-leave .tl-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.mod-student-leave .tl-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 42px 0; color: var(--on-surface-3); font-size: 10.5px; border: 1px dashed var(--outline); border-radius: 15px; }
+.mod-student-leave .tl-empty strong { font-size: 12.5px; color: var(--on-surface-2); }
+.mod-student-leave .tl-search { display: flex; align-items: center; gap: 9px; border: 1px solid var(--outline-strong); border-radius: 12px; padding: 0 13px; background: var(--surface-card); }
+.mod-student-leave .tl-search .icon { color: var(--on-surface-3); flex: 0 0 auto; }
+.mod-student-leave .tl-search input { border: 0; background: transparent; height: 40px; flex: 1; min-width: 0; font-size: 12.5px; color: var(--on-surface); outline: none; }
+.mod-student-leave .tl-search input::placeholder { color: var(--on-surface-3); }
+.mod-student-leave .tl-search:focus-within { border-color: var(--google-blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--google-blue) 14%, transparent); }
+.mod-student-leave .tl-hist-card { border: 1px solid var(--outline); border-radius: 12px; background: var(--surface-card); overflow: hidden; }
+.mod-student-leave .tl-hist-card.open { border-color: color-mix(in srgb, var(--google-blue) 40%, var(--outline)); }
+.mod-student-leave .tl-hist-head { display: flex; align-items: center; gap: 9px; width: 100%; border: 0; background: transparent; padding: 12px 14px; cursor: pointer; text-align: left; font-size: 12px; }
+.mod-student-leave .tl-hist-head:hover { background: var(--surface-low); }
+.mod-student-leave .tl-hist-head strong { font-size: 12.5px; font-weight: 740; }
+.mod-student-leave .tl-hist-head code { font-size: 11px; color: var(--google-blue); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.mod-student-leave .tl-hist-head em { font-style: normal; font-size: 10px; color: var(--on-surface-3); background: var(--surface-low); border-radius: var(--radius-pill); padding: 3px 9px; font-variant-numeric: tabular-nums; }
+.mod-student-leave .tl-hist-card.none .tl-hist-head { cursor: default; }
+.mod-student-leave .tl-hist-card.none .tl-hist-head strong, .mod-student-leave .tl-hist-card.none .tl-hist-head code { color: var(--on-surface-3); }
+.mod-student-leave .tl-bubble { display: inline-flex; align-items: center; border-radius: var(--radius-pill); padding: 3px 9px; font-size: 10px; font-weight: 700; line-height: 1.2; flex: 0 0 auto; }
+.mod-student-leave .tl-bubble.blue { background: var(--google-blue); color: #fff; }
+.mod-student-leave .tl-bubble.red { background: var(--danger); color: #fff; }
+.mod-student-leave .tl-hist-card.open .tl-hist-head .icon { transform: rotate(180deg); }
+.mod-student-leave .tl-hist-body { border-top: 1px solid var(--outline); padding: 8px 14px 12px; display: flex; flex-direction: column; gap: 7px; }
+.mod-student-leave .tl-hist-body[hidden] { display: none; }
+.mod-student-leave .tl-detail-row { display: flex; align-items: center; gap: 9px; font-size: 11px; color: var(--on-surface-2); flex-wrap: wrap; }
+.mod-student-leave .tl-detail-row span { font-variant-numeric: tabular-nums; font-weight: 650; }
+.mod-student-leave .tl-detail-row small { color: var(--on-surface-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
+.mod-student-leave .tl-pager { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 2px; }
+.mod-student-leave .tl-pager:empty { display: none; }
+.mod-student-leave .tl-page-info { font-size: 11px; color: var(--on-surface-3); font-variant-numeric: tabular-nums; }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>智考通 · Smart Attendance Connect</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231A73E8'/%3E%3Cpath d='m12 4 1.6 4.9 4.9 1.6-4.9 1.7L12 17l-1.6-4.8-4.9-1.7 4.9-1.6L12 4Z' fill='white'/%3E%3C/svg%3E" />
+  <!-- 宿主底座：仅全局设计令牌与基础组件（无任何业务板块逻辑） -->
+  <link rel="stylesheet" href="core/css/tokens.css?v=2026102108" />
+  <link rel="stylesheet" href="core/css/base.css?v=2026102108" />
+  <link rel="stylesheet" href="core/css/layout.css?v=2026102108" />
+  <link rel="stylesheet" href="core/css/components.css?v=2026102108" />
+</head>
+<body>
+  <!-- 图标与光照滤镜由 shared/icons.js 注入 -->
+  <div class="app-root">
+    <!-- [SLOT] 登录页覆盖层（mod-login） -->
+    <section class="login-stage" id="loginStage" aria-label="登录页"></section>
+
+    <!-- [SLOT] 顶栏（mod-core-nav，PC 端口） -->
+    <header class="topbar" id="topbar"></header>
+
+    <div class="app-shell no-agent" id="pcShell">
+      <!-- [SLOT] 侧栏导航（宿主渲染，按角色分级菜单） -->
+      <aside class="sidebar" id="sidebar"></aside>
+      <!-- [SLOT] 主区内容（mod-landing / mod-student-leave / mod-counselor-verify / mod-admin-console，PC 端口单挂） -->
+      <main class="main-column" id="canvasMainView">
+        <div id="mainViewContent"></div>
+      </main>
+    </div>
+
+    <!-- [SLOT] 手机端工作台（mod-mobile-home，mobile 端口） -->
+    <section class="mobile-stage" id="mobileStage" aria-label="手机端工作台"></section>
+
+    <!-- [SLOT] 全局弹窗容器（宿主全局组件） -->
+    <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal">
+        <div class="modal-header">
+          <div><h3 id="modalTitle">操作确认</h3><p id="modalLead"></p></div>
+          <button type="button" class="modal-close" id="modalClose" aria-label="关闭弹窗"><svg class="icon small"><use href="#i-x"/></svg></button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="modalCancel">取消</button>
+          <button type="button" class="btn primary" id="modalConfirm">知道了</button>
+        </div>
+      </div>
+    </div>
+    <!-- [SLOT] 全局轻提示（宿主全局组件） -->
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+  </div>
+
+  <!-- 微内核启动：图标注入 → 插件加载器（manifest 鉴权 + 熔断隔离） -->
+  <script type="module" src="core/main.js?v=2026102102"></script>
+</body>
+</html>

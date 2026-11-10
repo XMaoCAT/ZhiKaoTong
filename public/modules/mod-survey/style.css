@@ -1,0 +1,14 @@
+/* mod-survey 私有样式（列表布局；弹窗内件 sv-* / aca-* / segmented 均为宿主全局样式）
+   列表行复用全局 aca-req-row 骨架（与 mod-student-affairs 审批列表同款），此处仅收敛本模块差异。 */
+.mod-survey .sv-list { display: flex; flex-direction: column; gap: 8px; padding: 0 20px 16px; }
+.mod-survey .sv-kind-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; border-radius: var(--radius-pill); padding: 2px 8px; }
+.mod-survey .sv-kind-pill.qn { background: var(--google-blue-soft); color: var(--google-blue); }
+.mod-survey .sv-kind-pill.vt { background: #F3E8FD; color: var(--purple); }
+.mod-survey .sv-empty { display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 36px 0; color: var(--on-surface-3); font-size: 12px; border: 1px dashed var(--outline); border-radius: 14px; }
+.mod-survey .sv-stats-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 2px 0 8px; }
+.mod-survey .sv-rate { font-size: 12px; font-weight: 770; color: var(--google-blue); font-variant-numeric: tabular-nums; }
+.mod-survey .sv-detail-table { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.mod-survey .sv-detail-row { display: flex; align-items: flex-start; gap: 8px; border: 1px solid var(--outline); border-radius: 10px; padding: 7px 10px; font-size: 11px; background: var(--surface-card); }
+.mod-survey .sv-detail-row strong { flex: 0 0 84px; font-weight: 740; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mod-survey .sv-detail-row code { flex: 0 0 66px; color: var(--google-blue); font-size: 10px; font-variant-numeric: tabular-nums; }
+.mod-survey .sv-detail-row span { flex: 1; color: var(--on-surface-2); line-height: 1.6; }

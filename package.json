@@ -1,0 +1,18 @@
+{
+  "name": "zhikaotong-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "智考通 · 上传排队/进度/热更新服务（Fastify + SQLite，Windows/Linux 通用）",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "stop": "node scripts/stop.js",
+    "selftest": "cross-env ZKT_SELFTEST=1 node server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.28.1",
+    "@fastify/static": "^7.0.4",
+    "better-sqlite3": "^12.2.0"
+  }
+}
